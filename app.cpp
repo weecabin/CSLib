@@ -11,5 +11,6 @@
 int main() {
     std::cout << "Hello, World!\n";
     CircularBuffer<float> cb;
+    cb.SetSize(5);
     return 0;
 }
