@@ -4,10 +4,12 @@
 // the output in the terminal below.
 //
 // Happy coding! :-)
+#include "CircularBuffer.h"
 
 #include <iostream>
 
 int main() {
     std::cout << "Hello, World!\n";
+    CircularBuffer<float> cb;
     return 0;
 }
