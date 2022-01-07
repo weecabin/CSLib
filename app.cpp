@@ -5,6 +5,7 @@
 //
 // Happy coding! :-)
 // add a comment
+// and another comment
 
 #include "CircularBuffer.h"
 
