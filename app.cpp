@@ -4,6 +4,8 @@
 // the output in the terminal below.
 //
 // Happy coding! :-)
+// add a comment
+
 #include "CircularBuffer.h"
 
 #include <iostream>
