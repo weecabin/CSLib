@@ -21,6 +21,7 @@ int main() {
     return 0;
 }
 
+// CommandParser testing...
 void GetHeading(char *params)
 {
   std::cout << "In GetHeading\n";
@@ -38,6 +39,7 @@ void SetHeading(char *params)
 
 void CommandParserTest()
 {
+  std::cout<<"\n***** CommandParser Testing *****\n";
   CommandParser p;
   p.Add(GetHeading,GETHEADING);
   p.Add(SetHeading,SETHEADING);
@@ -49,6 +51,7 @@ void CommandParserTest()
 
 void CircularBufferTest()
 {
+  std::cout << "\n***** CircularBuffer Testing *****\n";
   std::cout << "Created buffer of 10 floats, then added more than 10\n";
   CircularBuffer<float> cb;
   cb.SetSize(10);
