@@ -17,6 +17,17 @@ void ToFloat(char *params, float floats[])
     }
 }
 
+void ToInt(char *params, int ints[])
+{
+  char *token = strtok(params,",");
+  int i = 0;
+  while (token != NULL)
+    {
+    ints[i++]=atoi(token);
+    token = strtok(NULL,",");
+    }
+}
+
 class CommandHandler
 {
   public:

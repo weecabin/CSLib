@@ -30,7 +30,10 @@ void SetHeading(char *params)
 {
   float floats[1];
   ToFloat(params,floats);
+  int ints[1];
+  ToInt(params,ints);
   std::cout << "In SetHeading("<<floats[0]<<")\n";
+  std::cout << "int param: "<<ints[0]<<"\n";
 }
 
 void CommandParserTest()
@@ -40,7 +43,7 @@ void CommandParserTest()
   p.Add(SetHeading,SETHEADING);
   char cmd1[] = "GetHeading()";
   p.Execute(cmd1);
-  char cmd2[] = "SetHeading(60)";
+  char cmd2[] = "SetHeading(60.1)";
   p.Execute(cmd2);
 }
 
