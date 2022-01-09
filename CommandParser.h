@@ -1,37 +1,20 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
-#include <cstdlib>
 #include <map>
 #include <cstring>
-#include <vector>
+#include <cstdlib>
 
 using namespace std;
 
-vector<float> ToFloat(char *str)
+void ToFloat(char *params, float floats[])
 {
-  vector<float> ret;
-  char *token = strtok(str, ",");
-  
+  char *token = strtok(params,",");
+  int i = 0;
   while (token != NULL)
-  {
-    ret.push_back(atof(token));
-    //cout << token << endl;
-    token = strtok(NULL, ",");
-  }
-  return ret;
-}
-vector<int> ToInt(char *str)
-{
-  vector<int> ret;
-  char *token = strtok(str, ",");
-  
-  while (token != NULL)
-  {
-    ret.push_back(atoi(token));
-    //cout << token << endl;
-    token = strtok(NULL, ",");
-  }
-  return ret;
+    {
+    floats[i++]=atof(token);
+    token = strtok(NULL,",");
+    }
 }
 
 class CommandHandler
