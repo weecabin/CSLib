@@ -53,6 +53,13 @@ struct cmp_str
    }
 };
 
+/* Command Parser
+parses a command line, and executes callback functions to handle commands stired in its map.
+Start by adding a command string and a function pointer that will handle the command.
+Add as many as you like.
+The callback function has the following signature
+void FunctionName(char *parameters)
+*/
 class CommandParser
 {
   public:
@@ -67,11 +74,17 @@ class CommandParser
       delete it->second;
     }
   };
+  // adds the executer function with cmd as the key to the command map
   void Add(void (*executer)(char *),const char* cmd)
   {
     CommandHandler *handler=new CommandHandler(executer,cmd);
     cmdMap.insert({cmd,handler});
   }
+
+  // Execute...
+  // if the command exists, executes the associated callback with the parameter
+  // string as the function parameter. All commas in the parameter string will be
+  // replaced with 0's to facilitate tokenizing the parameters.
   bool Execute(char *cmdLine)
   {
     int openParen=0;

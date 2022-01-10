@@ -22,17 +22,17 @@ int main() {
 }
 
 // CommandParser testing...
-void GetHeading(char *params)
+void GetHeading(char *paramstr)
 {
   std::cout << "In GetHeading\n";
 }
 
-void SetHeading(char *params)
+void SetHeading(char *paramstr)
 {
   float floats[1];
-  ToFloat(params,floats);
+  ToFloat(paramstr,floats);
   int ints[1];
-  ToInt(params,ints);
+  ToInt(paramstr,ints);
   std::cout << "In SetHeading("<<floats[0]<<")\n";
   std::cout << "int param: "<<ints[0]<<"\n";
 }
