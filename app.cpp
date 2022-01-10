@@ -29,12 +29,18 @@ void GetHeading(char *paramstr)
 
 void SetHeading(char *paramstr)
 {
-  float floats[1];
+  float floats[1]={0};
   ToFloat(paramstr,floats);
   int ints[1];
   ToInt(paramstr,ints);
   std::cout << "In SetHeading("<<floats[0]<<")\n";
   std::cout << "int param: "<<ints[0]<<"\n";
+}
+void SetPid(char *paramstr)
+{
+  float floats[3]={0,0,0};
+  ToFloat(paramstr,floats);
+  std::cout << "In SetPid("<<floats[0]<<","<<floats[1]<<","<<floats[2]<<")\n";
 }
 
 void CommandParserTest()
@@ -43,10 +49,15 @@ void CommandParserTest()
   CommandParser p;
   p.Add(GetHeading,GETHEADING);
   p.Add(SetHeading,SETHEADING);
+  p.Add(SetPid,SETPID);
   char cmd1[] = "GetHeading()";
   p.Execute(cmd1);
   char cmd2[] = "SetHeading(60.1)";
   p.Execute(cmd2);
+  char cmd3[]= "SetPid(1.1,2.2,3.3)";
+  p.Execute(cmd3);
+  char cmd4[]= "SetPid(1.1,2.2)";
+  p.Execute(cmd4);
 }
 
 void CircularBufferTest()

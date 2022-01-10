@@ -3,27 +3,41 @@
 #include <map>
 #include <cstring>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
-
+/*
+ToFloat
+helper tool to convert the parameter string CommandParser passes to the call back function
+to an array of floats.
+*/
 void ToFloat(char *params, float floats[])
 {
+  int len = sizeof(*floats);
   char *token = strtok(params,",");
   int i = 0;
   while (token != NULL)
-    {
+  {
     floats[i++]=atof(token);
+    if (i>=len)break;
     token = strtok(NULL,",");
-    }
+  }
 }
 
+/*
+ToInt
+helper tool to convert the parameter string CommandParser passes to the call back function
+to an array of ints.
+*/
 void ToInt(char *params, int ints[])
 {
+  int len = sizeof(*ints);
   char *token = strtok(params,",");
   int i = 0;
   while (token != NULL)
     {
     ints[i++]=atoi(token);
+    if (i>=len)break;
     token = strtok(NULL,",");
     }
 }
@@ -54,11 +68,12 @@ struct cmp_str
 };
 
 /* Command Parser
-parses a command line, and executes callback functions to handle commands stired in its map.
+parses a command line, and executes callback functions to handle commands defined in its map.
 Start by adding a command string and a function pointer that will handle the command.
 Add as many as you like.
 The callback function has the following signature
 void FunctionName(char *parameters)
+void FunctionName()
 */
 class CommandParser
 {
@@ -83,50 +98,27 @@ class CommandParser
 
   // Execute...
   // if the command exists, executes the associated callback with the parameter
-  // string as the function parameter. All commas in the parameter string will be
-  // replaced with 0's to facilitate tokenizing the parameters.
+  // string as the function parameter.
   bool Execute(char *cmdLine)
   {
-    int openParen=0;
-    int closeParen=0;
-    int lineLen = strlen(cmdLine);
-    // locate parens "command(param1,param2...)"
-    // replace commas with 0, to facilitate param conversions
-    for(int i=0;i<lineLen;i++)
-    {
-      if (cmdLine[i]==0)return false; // no cmd string
-      if (cmdLine[i]=='(')
-      {
-        openParen=i;
-        cmdLine[i]=0;
-      }
-      else if (cmdLine[i]==')')
-      {
-        cmdLine[i]=0;
-        break;
-      }
-    }
+    char *cmd = strtok(cmdLine,"(");
+    if (cmd == NULL)return false;
     if (cmdMap.count(cmdLine)>0) // the key esists
     {
-      if (openParen==0 || (openParen+1==closeParen))
+      char *params = strtok(NULL,")");
+      if (params!=NULL)
       {
-        // no parameters
-        char nothing[]="";
-        cmdMap[cmdLine]->Execute(nothing);
+        cmdMap[cmd]->Execute(params);
       }
       else
       {
-        cmdMap[cmdLine]->Execute(&cmdLine[openParen+1]);
+        char nothing[]="";
+        cmdMap[cmd]->Execute(nothing);
       }
-      return true;
-    } 
-    else
-    {
-      //std::cout<<"key not found\n";
-      //std:cout<<"size:";std::cout<<cmdMap.size();
-      return false;
     }
+    return true;
   }
+
   private:
   map<const char*,CommandHandler *, cmp_str> cmdMap;
 };
