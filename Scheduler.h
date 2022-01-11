@@ -50,7 +50,10 @@ class SchedulerTask
   }
   void SetRunTime(timeval current)
   {
-    nextRunTime=Add(current,runInterval);
+    if (!running)
+      nextRunTime=Add(current,runInterval);
+    else
+      nextRunTime=Add(nextRunTime,runInterval);
   }
   timeval Add(timeval t1,timeval t2)
   {
@@ -69,6 +72,7 @@ class SchedulerTask
   {
     if(!TimeToRun(currentTime))
       return false;
+    running=true;
     Run();
     SetRunTime(currentTime);
     return true;
@@ -83,6 +87,7 @@ class SchedulerTask
   void (*taskPtr)();
   timeval runInterval;
   timeval nextRunTime;
+  bool running=false;
 };
 
 /*

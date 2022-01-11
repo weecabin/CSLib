@@ -17,6 +17,10 @@ template <class T> class CircularBuffer
   {
     SetSize(1);
   }
+  CircularBuffer(int size)
+  {
+    SetSize(size);
+  }
   ~CircularBuffer()
   {
     if (buffer!=0)

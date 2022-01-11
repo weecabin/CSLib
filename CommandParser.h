@@ -68,7 +68,7 @@ struct cmp_str
 };
 
 /* Command Parser
-parses a command line, and executes callback functions to handle commands defined in its map.
+parses a command lines, and executes callback functions to handle commands defined in its map.
 Start by adding a command string and a function pointer that will handle the command.
 Add as many as you like.
 The callback function has the following signature

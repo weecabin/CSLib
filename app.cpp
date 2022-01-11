@@ -8,18 +8,42 @@
 
 #include "CircularBuffer.h"
 #include "CommandParser.h"
+#include "Scheduler.h"
 #include "MyStrings.h"
 
 #include <iostream>
 
 void CircularBufferTest();
 void CommandParserTest();
+void SchedulerTest();
 
-int main() {
-    CommandParserTest();
-    CircularBufferTest();
+int main() 
+{
+    SchedulerTest();
+    //CommandParserTest();
+    //CircularBufferTest();
     return 0;
 }
+
+// Scheduler TEsting
+void task1()
+{
+  static int count1=0;
+  cout<<"In Task1: "<<++count1<<"\n";
+}
+void task2()
+{
+  static int count2=0;
+  cout<<"\tIn Task2: "<<++count2<<"\n";
+}
+void SchedulerTest()
+{
+  Scheduler s(5);
+  s.AddTask(new SchedulerTask(task1,.5));
+  s.AddTask(new SchedulerTask(task2,.25));
+  s.Run(5);
+}
+
 
 // CommandParser testing...
 void GetHeading(char *paramstr)
@@ -31,6 +55,7 @@ void SetHeading(char *paramstr)
 {
   float floats[1]={0};
   ToFloat(paramstr,floats);
+  
   int ints[1];
   ToInt(paramstr,ints);
   std::cout << "In SetHeading("<<floats[0]<<")\n";
@@ -64,9 +89,12 @@ void CircularBufferTest()
 {
   std::cout << "\n***** CircularBuffer Testing *****\n";
   std::cout << "Created buffer of 10 floats, then added more than 10\n";
-  CircularBuffer<float> cb;
-  cb.SetSize(10);
+  CircularBuffer<float> cb(10);
+  //cb.SetSize(10);
   for (float i=1.1;i<20;i+=1.1)
     cb.Push(i);
+  cb.Print();
+  std::cout <<"delete the third entry\n";
+  cb.Delete(2);
   cb.Print();
 }
