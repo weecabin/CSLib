@@ -85,6 +85,10 @@ class SchedulerTask
       return waiting;
     running=true;
     Run();
+    if (endRunTime!=0 && currentTime>endRunTime)
+    {
+      return killme;
+    }
     SetRunTime(currentTime);
     return runcomplete;
   }
@@ -158,9 +162,13 @@ class Scheduler
     {
       case waiting:
       break;
+
       case runcomplete:
       break;
+
       case killme:
+      delete buff[taskIndex];
+      buff.Delete(taskIndex); // rearranges the array to fill this hole 
       break;
     }
   }
