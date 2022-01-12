@@ -19,7 +19,7 @@ void SchedulerTest();
 
 int main() 
 {
-    for (int i=0;i<2;i++)
+    for (int i=0;i<10;i++)
       SchedulerTest();
     //CommandParserTest();
     //CircularBufferTest();
@@ -50,7 +50,7 @@ void SchedulerTest()
   count1=count2=count3=0;
   Scheduler s(5);
   s.AddTask(new SchedulerTask(task1,.5));
-  s.AddTask(new SchedulerTask(task2,.25,1));
+  s.AddTask(new SchedulerTask(task2,.25,5));
   s.AddTask(new SchedulerTask(task3,1));
   s.Run(5);
 }

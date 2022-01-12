@@ -57,11 +57,14 @@ enum RunStatus {waiting,runcomplete,killme};
 class SchedulerTask
 {
   public:
-  SchedulerTask(void (*functionPtr)(),float runIntervalSeconds, float runTimeSeconds=0)
+  // functionPtr = pointer to function called when task runs
+  // runIntervalSeconds = time between task starts
+  // starts = number of times to run. kill task after this
+  SchedulerTask(void (*functionPtr)(),float runIntervalSeconds, int starts=0)
   {
     taskPtr=functionPtr;
     runInterval = runIntervalSeconds*1000;
-    endRunTime = runTimeSeconds*1000;
+    this->starts = starts;
   }
   bool TimeToRun(unsigned long currentTime)
   {
@@ -73,8 +76,6 @@ class SchedulerTask
     {
       //std::cout<<"not running\n";
       nextRunTime=current+runInterval;
-      if (endRunTime!=0)
-        endRunTime+=current;
     }
     else
     {
@@ -91,8 +92,9 @@ class SchedulerTask
       return waiting;
     running=true;
     Run();
-    if (endRunTime!=0 && currentTime>=endRunTime)
+    if (starts!=0)
     {
+      if (--starts==0)
       return killme;
     }
     //std::cout<<"SetRunTime\n";
@@ -110,7 +112,7 @@ class SchedulerTask
   void (*taskPtr)();
   unsigned long runInterval;
   unsigned long nextRunTime;
-  unsigned long endRunTime;
+  unsigned int starts;
   bool running=false;
 };
 
@@ -176,7 +178,7 @@ class Scheduler
       break;
 
       case killme:
-      std::cout<<"killme\n";
+      std::cout<<"kill("<<taskIndex+1<<")\n";
       delete buff[taskIndex];
       buff.Delete(taskIndex); // rearranges the array to fill this hole 
       break;
