@@ -45,9 +45,9 @@ void SchedulerTest()
 {
   std::cout<<"\n******** SchedulerTest ********\n";
   Scheduler s(5);
-  s.AddTask(new SchedulerTask(task1,.5));
+  s.AddTask(new SchedulerTask(task1,.5,1));
   s.AddTask(new SchedulerTask(task2,.25));
-  s.AddTask(new SchedulerTask(task3,1,2));
+  s.AddTask(new SchedulerTask(task3,1));
   s.Run(5);
 }
 

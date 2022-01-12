@@ -85,7 +85,7 @@ class SchedulerTask
       return waiting;
     running=true;
     Run();
-    if (endRunTime!=0 && currentTime>endRunTime)
+    if (endRunTime!=0 && currentTime>=endRunTime)
     {
       return killme;
     }
@@ -95,6 +95,7 @@ class SchedulerTask
   // always runs. its up to the calling task to determine if its time
   void Run()
   {
+    std::cout<<mytime.millis();
     taskPtr();
   }
 
@@ -146,7 +147,7 @@ class Scheduler
       if (idleTask!=NULL)
         idleTask();
       time = mytime.millis();
-      for(int i=0;i<buff.ValuesIn();i++)
+      for(int i=buff.ValuesIn()-1;i>=0;i--)
         HandleRunStatus(i,buff[i]->Run(time));
     }while(quitTime>time);
     m.Stop();
