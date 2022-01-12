@@ -5,77 +5,88 @@
 #include <string>
 #include <cmath>
 
+class MyTime
+{
+  public:
+  MyTime()
+  {
+    gettimeofday(&begin,0);
+  }
+  unsigned long millis()
+  {
+    timeval temp;
+    gettimeofday(&temp,0);
+    unsigned long seconds = (temp.tv_sec-begin.tv_sec);
+    unsigned long ms = (temp.tv_usec-begin.tv_usec)/1000;
+    if (ms<0)
+    {
+      seconds-=1;
+      ms +=1000;
+    }
+    ms += seconds*1000;
+    return ms;
+  }
+  private:
+  timeval begin;
+};
+
+MyTime mytime;
+
 class MeasureTime
 {
   public:
   void Start()
   {
-    gettimeofday(&startTime,0);
+    startTime=mytime.millis();
   }
   void Stop()
   {
-    gettimeofday(&stopTime,0); 
+    stopTime=mytime.millis(); 
   }
   float Result()
   {
-    float secs = stopTime.tv_sec - startTime.tv_sec;
-    float usecs = stopTime.tv_usec - startTime.tv_usec;
-    if (usecs<0)
-    {
-      secs--;
-      usecs*=-1;
-    }
-    float ret = secs+usecs*.000001;
-    return  ret;
+    return  stopTime-startTime;
   }
   private:
-  timeval startTime;
-  timeval stopTime;
+  unsigned long  startTime;
+  unsigned long  stopTime;
 };
+
+enum RunStatus {waiting,runcomplete,killme};
 
 class SchedulerTask
 {
   public:
-  SchedulerTask(void (*functionPtr)(),float runIntervalSeconds)
+  SchedulerTask(void (*functionPtr)(),float runIntervalSeconds, float runTimeSeconds=0)
   {
     taskPtr=functionPtr;
-    float secs = floor(runIntervalSeconds);
-    float frac = runIntervalSeconds - (int)runIntervalSeconds;
-    runInterval.tv_sec=secs;
-    runInterval.tv_usec=1e6*frac;
+    runInterval = runIntervalSeconds*1000;
+    endRunTime = runTimeSeconds*1000;
   }
-  bool TimeToRun(timeval currentTime)
+  bool TimeToRun(unsigned long currentTime)
   {
-    return nextRunTime.tv_sec<=currentTime.tv_sec && nextRunTime.tv_usec<=currentTime.tv_usec;
+    return currentTime >= nextRunTime;
   }
-  void SetRunTime(timeval current)
+  void SetRunTime(unsigned long current)
   {
     if (!running)
-      nextRunTime=Add(current,runInterval);
-    else
-      nextRunTime=Add(nextRunTime,runInterval);
-  }
-  timeval Add(timeval t1,timeval t2)
-  {
-    timeval ret;
-    ret.tv_sec=t1.tv_sec+t2.tv_sec;
-    ret.tv_usec=t1.tv_usec+t2.tv_usec;
-    if (ret.tv_usec>=1000000)
     {
-      ret.tv_sec+=1;
-      ret.tv_usec-=1000000;
+      nextRunTime=current+runInterval;
+      endRunTime+=current;
     }
-    return ret;
+    else
+      nextRunTime+=runInterval;
   }
+
   // Runs only if it's time to run
-  bool Run(timeval currentTime)
+  RunStatus Run(unsigned long currentTime)
   {
     if(!TimeToRun(currentTime))
-      return false;
+      return waiting;
     running=true;
     Run();
     SetRunTime(currentTime);
-    return true;
+    return runcomplete;
   }
   // always runs. its up to the calling task to determine if its time
   void Run()
@@ -85,8 +96,9 @@ class SchedulerTask
 
   private:
   void (*taskPtr)();
-  timeval runInterval;
-  timeval nextRunTime;
+  unsigned long runInterval;
+  unsigned long nextRunTime;
+  unsigned long endRunTime;
   bool running=false;
 };
 
@@ -118,12 +130,9 @@ class Scheduler
   { 
     MeasureTime m;
     // setup the outer loop
-    struct timeval time;
-    struct timeval end;
-    gettimeofday(&time, 0);
-    end.tv_sec=time.tv_sec+seconds;
-    end.tv_usec=time.tv_usec;
-
+    unsigned long time = mytime.millis();
+    unsigned long quitTime = seconds*1000 + time;
+    
     // set the next runtime for every task
     for(int i=0;i<buff.ValuesIn();i++)
       buff[i]->SetRunTime(time);
@@ -132,10 +141,10 @@ class Scheduler
     {
       if (idleTask!=NULL)
         idleTask();
-      gettimeofday(&time,0);
+      time = mytime.millis();
       for(int i=0;i<buff.ValuesIn();i++)
-        buff[i]->Run(time);
-    }while(!TimeUp(end,time));
+        HandleRunStatus(i,buff[i]->Run(time));
+    }while(quitTime>time);
     m.Stop();
     std::cout << "\n";
     std::cout << m.Result();
@@ -143,9 +152,17 @@ class Scheduler
   }
 
   private:
-  bool TimeUp(timeval target,timeval current)
+  void HandleRunStatus(int taskIndex,RunStatus status)
   {
-    return target.tv_sec<=current.tv_sec && target.tv_usec<=current.tv_usec;
+    switch (status)
+    {
+      case waiting:
+      break;
+      case runcomplete:
+      break;
+      case killme:
+      break;
+    }
   }
   void (*idleTask)()=NULL;
   CircularBuffer<SchedulerTask *> buff;
