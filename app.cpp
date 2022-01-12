@@ -19,34 +19,38 @@ void SchedulerTest();
 
 int main() 
 {
-    SchedulerTest();
-    CommandParserTest();
-    CircularBufferTest();
+    for (int i=0;i<2;i++)
+      SchedulerTest();
+    //CommandParserTest();
+    //CircularBufferTest();
     return 0;
 }
 
 // Scheduler TEsting
+int count1=0;
 void task1()
 {
-  static int count1=0;
   cout<<"In Task1: "<<++count1<<"\n";
 }
+
+int count2=0;
 void task2()
 {
-  static int count2=0;
   cout<<"\tIn Task2: "<<++count2<<"\n";
 }
+
+int count3=0;
 void task3()
 {
-  static int count3=0;
   cout<<"\t\tIn Task3: "<<++count3<<"\n";
 }
 void SchedulerTest()
 {
   std::cout<<"\n******** SchedulerTest ********\n";
+  count1=count2=count3=0;
   Scheduler s(5);
-  s.AddTask(new SchedulerTask(task1,.5,1));
-  s.AddTask(new SchedulerTask(task2,.25));
+  s.AddTask(new SchedulerTask(task1,.5));
+  s.AddTask(new SchedulerTask(task2,.25,1));
   s.AddTask(new SchedulerTask(task3,1));
   s.Run(5);
 }

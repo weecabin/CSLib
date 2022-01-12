@@ -23,12 +23,13 @@ template <class T> class CircularBuffer
   }
   ~CircularBuffer()
   {
+    std::cout<<"in ~CircularBuffer\n";
     if (buffer!=0)
       delete [] buffer;
   }
   void SetSize(int size)
   {
-    if(buffer!=NULL)delete buffer;
+    if(buffer!=NULL)delete []buffer;
     buffer=new T[size];
     Clear();
     end=&buffer[size-1];

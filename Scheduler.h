@@ -71,11 +71,17 @@ class SchedulerTask
   {
     if (!running)
     {
+      //std::cout<<"not running\n";
       nextRunTime=current+runInterval;
-      endRunTime+=current;
+      if (endRunTime!=0)
+        endRunTime+=current;
     }
     else
+    {
+      //std::cout<<"running\n";
       nextRunTime+=runInterval;
+    }
+    //std::cout<<"next run time: "<<nextRunTime<<"\n";
   }
 
   // Runs only if it's time to run
@@ -89,13 +95,14 @@ class SchedulerTask
     {
       return killme;
     }
+    //std::cout<<"SetRunTime\n";
     SetRunTime(currentTime);
     return runcomplete;
   }
   // always runs. its up to the calling task to determine if its time
   void Run()
   {
-    std::cout<<mytime.millis();
+    //std::cout<<mytime.millis();
     taskPtr();
   }
 
@@ -128,6 +135,7 @@ class Scheduler
   }
   ~Scheduler()
   {
+    std::cout<<"In ~Scheduler\n";
     for(int i=0;i<buff.ValuesIn();i++)
       delete buff[i];
   }
@@ -168,6 +176,7 @@ class Scheduler
       break;
 
       case killme:
+      std::cout<<"killme\n";
       delete buff[taskIndex];
       buff.Delete(taskIndex); // rearranges the array to fill this hole 
       break;
