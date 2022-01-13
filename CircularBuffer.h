@@ -90,6 +90,7 @@ template <class T> class CircularBuffer
       Push(value);
       return;
     }
+    if (d==valuesIn)return; // can't insert at the end
     for (int i=valuesIn==size?valuesIn-2:valuesIn-1;i>=d;i--)
     {
       //std::cout << *Ptr(i-1);
