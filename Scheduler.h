@@ -54,19 +54,22 @@ class MeasureTime
 
 enum RunStatus {waiting,runcomplete,killme};
 
-class SchedulerTask
+class BaseTask
 {
   public:
   // functionPtr = pointer to function called when task runs
   // runIntervalSeconds = time between task starts
   // starts = number of times to run. kill task after this
-  SchedulerTask(void (*functionPtr)(),float runIntervalSeconds, int starts=0)
+  BaseTask(float runIntervalSeconds, int starts=0)
   {
-    taskPtr=functionPtr;
     runInterval = runIntervalSeconds*1000;
     this->starts = starts;
   }
-  bool TimeToRun(unsigned long currentTime)
+  virtual ~BaseTask()
+  {
+
+  }
+  bool TimeToRun(unsigned long currentTime) 
   {
     return currentTime >= nextRunTime;
   }
@@ -102,18 +105,54 @@ class SchedulerTask
     return runcomplete;
   }
   // always runs. its up to the calling task to determine if its time
-  void Run()
-  {
-    //std::cout<<mytime.millis();
-    taskPtr();
-  }
+  virtual void Run() = 0;
 
   private:
-  void (*taskPtr)();
   unsigned long runInterval;
   unsigned long nextRunTime;
   unsigned int starts;
   bool running=false;
+};
+
+class FunctionTask : public BaseTask
+{
+  public:
+  FunctionTask(void (*functionPtr)(),float runIntervalSeconds, int starts=0):
+      BaseTask(runIntervalSeconds,starts)
+{
+  taskPtr=functionPtr;
+}
+~FunctionTask()
+{
+  std::cout<<"In ~FunctionTask\n";
+}
+void Run()
+{
+  taskPtr();
+}
+private:
+void (*taskPtr)();
+};
+
+class ExampleTask : public BaseTask
+{
+  public:
+  ExampleTask(const char* name,float runIntervalSeconds, int starts=0):
+      BaseTask(runIntervalSeconds,starts)
+  {
+    this->name = name;
+  }
+  ~ExampleTask()
+  {
+    std::cout<<"In ~ExampleTask";
+  }
+  void Run()
+  {
+    std::cout<<name<<"("<<++count<<")\n";
+  }
+  private:
+  const char* name;
+  int count=0;
 };
 
 /*
@@ -131,7 +170,7 @@ class Scheduler
   {
     idleTask=idle;
   }
-  void AddTask(SchedulerTask *task)
+  void AddTask(BaseTask *task)
   {
     buff.Push(task);
   }
@@ -164,6 +203,7 @@ class Scheduler
     std::cout << "\n";
     std::cout << m.Result();
     std::cout << "\n";
+    std::cout << "End of Scheduler\n";
   }
 
   private:
@@ -179,12 +219,12 @@ class Scheduler
 
       case killme:
       std::cout<<"kill("<<taskIndex+1<<")\n";
-      delete buff[taskIndex];
+      delete buff[taskIndex]; // free the memory of this object
       buff.Delete(taskIndex); // rearranges the array to fill this hole 
       break;
     }
   }
   void (*idleTask)()=NULL;
-  CircularBuffer<SchedulerTask *> buff;
+  CircularBuffer<BaseTask *> buff;
 };
 #endif

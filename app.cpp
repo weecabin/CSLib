@@ -4,7 +4,6 @@
 // the output in the terminal below.
 //
 // Happy coding! :-)
-// some stuff tomsee how git diff works
 
 #include "CircularBuffer.h"
 #include "CommandParser.h"
@@ -19,39 +18,45 @@ void SchedulerTest();
 
 int main() 
 {
-    for (int i=0;i<10;i++)
-      SchedulerTest();
-    //CommandParserTest();
-    //CircularBufferTest();
-    return 0;
+  for (int i=0;i<2;i++)
+    SchedulerTest();
+  CommandParserTest();
+  CircularBufferTest();
+  return 0;
 }
 
 // Scheduler TEsting
 int count1=0;
 void task1()
 {
-  cout<<"In Task1: "<<++count1<<"\n";
+  cout<<"Task1: "<<++count1<<"\n";
 }
 
 int count2=0;
 void task2()
 {
-  cout<<"\tIn Task2: "<<++count2<<"\n";
+  cout<<"\tTask2: "<<++count2<<"\n";
 }
 
 int count3=0;
 void task3()
 {
-  cout<<"\t\tIn Task3: "<<++count3<<"\n";
+  cout<<"\t\tTask3: "<<++count3<<"\n";
+}
+int count4=0;
+void task4()
+{
+  cout<<"\t\t\tTask4: "<<++count4<<"\n";
 }
 void SchedulerTest()
 {
   std::cout<<"\n******** SchedulerTest ********\n";
-  count1=count2=count3=0;
+  count1=count2=count3=count4=0;
   Scheduler s(5);
-  s.AddTask(new SchedulerTask(task1,.5));
-  s.AddTask(new SchedulerTask(task2,.25,5));
-  s.AddTask(new SchedulerTask(task3,1));
+  s.AddTask(new FunctionTask(task1,.1));
+  s.AddTask(new FunctionTask(task2,.2));
+  s.AddTask(new FunctionTask(task3,.3));
+  s.AddTask(new FunctionTask(task4,.4));
   s.Run(5);
 }
 
@@ -93,6 +98,8 @@ void CommandParserTest()
   p.Execute(cmd3);
   char cmd4[]= "SetPid(1.1,2.2)";
   p.Execute(cmd4);
+  char cmd5[]= "SetPid(1.1,2.2,5)";
+  p.Execute(cmd5);
 }
 
 void CircularBufferTest()
@@ -107,4 +114,9 @@ void CircularBufferTest()
   std::cout <<"delete the third entry\n";
   cb.Delete(2);
   cb.Print();
+}
+
+void SomeTestCode()
+{
+  
 }
