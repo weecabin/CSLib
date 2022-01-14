@@ -34,18 +34,18 @@ int main()
 // PID testing
 void PidCtrlTest()
 {
-  PIDCtrl pid(1,1,0,10);
+  PIDCtrl pid(1,1,0,1,10);
+  println("Set target to 5");
   pid.Target(5);
   srand(2);
   float r = float(rand()%1000)/1000.0;
-  println(r);
   for (int i=0;i<10;i++)
   {
     r = float(rand()%1000)/1000.0;
     pid.Add(4.5+r);
   }
   pid.Print();
-  println(pid.Correction());
+  print("Correction: ");println(pid.Correction());
 }
 
 // Scheduler TEsting

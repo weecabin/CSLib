@@ -3,7 +3,7 @@
 #define print(x)(std::cout<<x)
 #define println(x)(std::cout<<x<<"\n")
 
-PIDCtrl::PIDCtrl (float kp,float ki,float kd,int bufferSize)
+PIDCtrl::PIDCtrl (float kp,float ki,float kd,float ts, int bufferSize)
 {
   buffer.SetSize(bufferSize);
   do
@@ -14,6 +14,7 @@ PIDCtrl::PIDCtrl (float kp,float ki,float kd,int bufferSize)
   this->kp=kp;
   this->ki=ki;
   this->kd=kd;
+  this->ts=ts;
 }
 
 void PIDCtrl::SetCoefficients(float kp, float ki, float kd)
@@ -21,6 +22,11 @@ void PIDCtrl::SetCoefficients(float kp, float ki, float kd)
   this->kp=kp;
   this->ki=ki;
   this->kd=kd;
+}
+
+void PIDCtrl::SetSampleInterval(float ts)
+{
+  this->ts=ts; 
 }
 
 float PIDCtrl::GetKp()
@@ -34,6 +40,10 @@ float PIDCtrl::GetKi()
 float PIDCtrl::GetKd()
 {
   return kd;
+}
+float PIDCtrl::GetTs()
+{
+  return ts;
 }
 
 void PIDCtrl::Print()
@@ -70,13 +80,13 @@ float PIDCtrl::Add(float value)
 float PIDCtrl::Correction()
 {
   return kp*(buffer.Head())+
-         ki*sum+
-         kd*(buffer.operator[](1)-buffer.Head());
+         ki*sum*ts+
+         kd*(buffer.operator[](1)-buffer.Head()/ts);
 }
 
 float PIDCtrl::Integral()
 {
-  return ki*sum;
+  return ki*sum*ts;
 }
 
   

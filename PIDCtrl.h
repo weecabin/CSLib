@@ -5,13 +5,16 @@
 class PIDCtrl
 {
   public:
-  PIDCtrl(float kp,float ki,float kd, int bufferSize=10);
+  PIDCtrl(float kp,float ki,float kd, float ts, int bufferSize=10);
 
   void SetCoefficients(float kp, float ki, float kd=0);
   float GetKp();
   float GetKi();
   float GetKd();
-   
+  float GetTs();
+
+  void SetSampleInterval(float ts);
+
   // The following two methods are used when the input is the current value of the process
   // Enter the target of the PID
   void Target(float target);
@@ -37,7 +40,7 @@ class PIDCtrl
   
   private:
   CircularBuffer<float> buffer;
-  float kp,ki,kd;
+  float kp,ki,kd,ts=1;
   float target;
   float sum;
 };
