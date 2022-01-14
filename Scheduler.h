@@ -52,8 +52,10 @@ class MeasureTime
   unsigned long  stopTime;
 };
 
-enum RunStatus {waiting,runcomplete,killme};
+enum RunStatus {waiting,runcomplete,killme };
 
+// Abstract class used as the base for all Scheduler tasks
+// Override Run() for the functionality of the derived class
 class BaseTask
 {
   public:
@@ -67,7 +69,7 @@ class BaseTask
   }
   virtual ~BaseTask()
   {
-
+    std::cout<<"In ~BaseTask\n";
   }
   bool TimeToRun(unsigned long currentTime) 
   {
@@ -104,7 +106,7 @@ class BaseTask
     SetRunTime(currentTime);
     return runcomplete;
   }
-  // always runs. its up to the calling task to determine if its time
+
   virtual void Run() = 0;
 
   private:
@@ -114,6 +116,7 @@ class BaseTask
   bool running=false;
 };
 
+// Scheduler task that takes a function pointer as the executable task
 class FunctionTask : public BaseTask
 {
   public:
@@ -134,6 +137,8 @@ private:
 void (*taskPtr)();
 };
 
+// Sample of how to use a class as a task
+// The task functionality is defined in Run()
 class ExampleTask : public BaseTask
 {
   public:
@@ -144,9 +149,10 @@ class ExampleTask : public BaseTask
   }
   ~ExampleTask()
   {
-    std::cout<<"In ~ExampleTask";
+    std::cout<<"In ~ExampleTask\n";
   }
-  void Run()
+  // declared virtual allowing for this class to be the base of another class
+  virtual void Run()
   {
     std::cout<<name<<"("<<++count<<")\n";
   }
@@ -161,12 +167,13 @@ Used to run tasks at a defined rate.
 class Scheduler
 {
   public:
+  // maxTasks defines the maximum number of tasks
   Scheduler(int maxTasks)
   {
     buff.SetSize(maxTasks);
   }
-
-  void IdleTask(void (*idle)())
+  // 
+  void IdleTask(BaseTask *idle)
   {
     idleTask=idle;
   }
@@ -194,7 +201,7 @@ class Scheduler
     do
     {
       if (idleTask!=NULL)
-        idleTask();
+        idleTask->Run();
       time = mytime.millis();
       for(int i=buff.ValuesIn()-1;i>=0;i--)
         HandleRunStatus(i,buff[i]->Run(time));
@@ -224,7 +231,7 @@ class Scheduler
       break;
     }
   }
-  void (*idleTask)()=NULL;
+  BaseTask *idleTask=NULL;
   CircularBuffer<BaseTask *> buff;
 };
 #endif

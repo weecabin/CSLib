@@ -12,7 +12,10 @@
 
 #include <iostream>
 
-void CircularBufferTest();
+#define print(x)(std::cout<<x)
+#define println(x)(std::cout<<x<<"\n")
+
+  void CircularBufferTest();
 void CommandParserTest();
 void SchedulerTest();
 
@@ -48,11 +51,22 @@ void task4()
 {
   cout<<"\t\t\tTask4: "<<++count4<<"\n";
 }
+int idle=0;
+void idleTask()
+{
+  print("idleTask: ");println(++idle);
+  MyTime t;
+  // don't want to fill the screen with idleTask
+  do{}while(t.millis()<20);
+}
 void SchedulerTest()
 {
   std::cout<<"\n******** SchedulerTest ********\n";
   count1=count2=count3=count4=0;
   Scheduler s(5);
+  // using FunctionTask as the idle task for convenience here
+  // the runtime parameter won't be used, but it's needed
+  s.IdleTask(new FunctionTask(idleTask,1));
   s.AddTask(new FunctionTask(task1,.1));
   s.AddTask(new FunctionTask(task2,.2));
   s.AddTask(new FunctionTask(task3,.3));
