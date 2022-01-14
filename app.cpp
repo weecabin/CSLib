@@ -9,23 +9,43 @@
 #include "CommandParser.h"
 #include "Scheduler.h"
 #include "MyStrings.h"
+#include "PIDCtrl.h"
 
+#include <cstdlib>
 #include <iostream>
 
 #define print(x)(std::cout<<x)
 #define println(x)(std::cout<<x<<"\n")
 
-  void CircularBufferTest();
+void CircularBufferTest();
 void CommandParserTest();
 void SchedulerTest();
+void PidCtrlTest();
 
 int main() 
 {
-  for (int i=0;i<2;i++)
-    SchedulerTest();
-  CommandParserTest();
-  CircularBufferTest();
+  PidCtrlTest();
+  //SchedulerTest();
+  //CommandParserTest();
+  //CircularBufferTest();
   return 0;
+}
+
+// PID testing
+void PidCtrlTest()
+{
+  PIDCtrl pid(1,1,0,10);
+  pid.Target(5);
+  srand(2);
+  float r = float(rand()%1000)/1000.0;
+  println(r);
+  for (int i=0;i<10;i++)
+  {
+    r = float(rand()%1000)/1000.0;
+    pid.Add(4.5+r);
+  }
+  pid.Print();
+  println(pid.Correction());
 }
 
 // Scheduler TEsting
