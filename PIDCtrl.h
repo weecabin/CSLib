@@ -5,6 +5,9 @@
 class PIDCtrl
 {
   public:
+  // kp,ki,kd are the PID coefficients
+  // ts is the sample interval
+  // bufferSize is the maximum size of the data buffer
   PIDCtrl(float kp,float ki,float kd, float ts, int bufferSize=10);
 
   void SetCoefficients(float kp, float ki, float kd=0);
@@ -13,6 +16,7 @@ class PIDCtrl
   float GetKd();
   float GetTs();
 
+  // sets the time between successive samples
   void SetSampleInterval(float ts);
 
   // The following two methods are used when the input is the current value of the process
