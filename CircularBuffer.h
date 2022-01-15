@@ -23,7 +23,7 @@ template <class T> class CircularBuffer
   }
   ~CircularBuffer()
   {
-    std::cout<<"in ~CircularBuffer\n";
+    //std::cout<<"in ~CircularBuffer\n";
     if (buffer!=0)
       delete [] buffer;
   }
