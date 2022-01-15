@@ -68,6 +68,19 @@ float PIDCtrl::NextError(float error)
   return Correction();
 }
 
+float PIDCtrl::DeltaError()
+{
+  float max=0;
+  for (int i=0;i<buffer.ValuesIn();i++)
+    for (int j=i+1;j<buffer.ValuesIn()-1;j++)
+    {
+      float test = abs(buffer[i]-buffer[j]);
+      if (test>max)
+        max=test;
+    }
+  return max;
+}
+
 float PIDCtrl::Add(float value)
 {
   float newEntry = value-target;

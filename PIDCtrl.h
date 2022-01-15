@@ -33,6 +33,8 @@ class PIDCtrl
   // the internal target value isn't used
   float NextError(float error);
 
+  float DeltaError();
+
   // returns the output of the PID, or the correction to be applied to the process
   float Correction();
 
