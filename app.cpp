@@ -62,6 +62,9 @@ void LinkedListTest()
     println(ll.GetPrev());
   println("LinkedList.Print()");
   ll.Print();
+  println("Iterator...");
+  for(auto itr = ll.begin(); itr != ll.end(); itr++)
+    std::cout << *itr << std::endl;
 }
 
 
