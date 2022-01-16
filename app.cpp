@@ -11,7 +11,7 @@
 #include "MyStrings.h"
 #include "PIDCtrl.h"
 #include "DataTools.h"
-
+#include "LinkedList.h"
 #include <cstdlib>
 #include <iostream>
 
@@ -23,16 +23,30 @@ void CommandParserTest();
 void SchedulerTest();
 void PidCtrlTest();
 void DataToolsTest();
+void LinkedListTest();
 
 int main() 
 {
-  DataToolsTest();
+  LinkedListTest();
+  //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
   return 0;
 }
+
+void LinkedListTest()
+{
+  LinkedList<float> ll;
+  ll.Add(1.1);
+  ll.Add(2.2);
+  ll.Add(3.3);
+  println(ll.Get(true));
+  while(!ll.EndOfData())
+    println(ll.Get());
+}
+
 
 void DataToolsTest()
 {
