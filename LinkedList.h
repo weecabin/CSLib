@@ -25,7 +25,9 @@ template<class T> class node
 template<class T> class LinkedList
 {
 public:
-LinkedList(){};
+LinkedList()
+{
+}
 ~LinkedList()
 {
   println("~LinkedList");
@@ -43,18 +45,20 @@ void Add(T t)
   {
     head = new node<T>;
     head->value=t;
-    tail=head;
+    // add a dummy node at the end
+    tail = new node<T>();
+    head->next = tail;
+    tail->prev=head;
     return;
   }
-  // create new element and point tail->next to it
-  tail->next = new node<T>;
-  // assign the new tail prev pointer to the old tail
-  tail->next->prev=tail;
-  // new tail links are all setup
-  // set tail to the new tail
-  tail=tail->next;
-  // assign the value
-  tail->value=t;
+  // create new element and insert it before the dummy end node
+  node<T> *newentry = new node<T>();
+  newentry->value=t;
+  node<T> *oldend = tail->prev;
+  oldend->next = newentry;
+  tail->prev = newentry;
+  newentry->prev = oldend;
+  newentry->next = tail;
 }
 T GetNext(bool reset=false)
 {
@@ -64,7 +68,7 @@ T GetNext(bool reset=false)
     getnext=head->next;
     return head->value;
   }
-  if (getnext==0)throw;
+  if (getnext==tail)throw;
   node<T> *temp=getnext;
   getnext=getnext->next;
   return temp->value;
@@ -74,8 +78,9 @@ T GetPrev(bool reset=false)
   if (values==0)throw;
   if (reset)
   {
-    getprev=tail->prev;
-    return tail->value;
+    // last entry is one before the dummy tail entry
+    getprev=tail->prev->prev;
+    return tail->prev->value;
   }
   if (getprev==0)throw;
   node<T> *temp=getprev;
@@ -87,7 +92,7 @@ void Print()
   if (values!=0)
   {
     node<T> *temp=head;
-    while(temp!=0)
+    while(temp->next!=0) // looking for the dummy entry
     {
       println(temp->value);
       temp=temp->next;
@@ -96,7 +101,7 @@ void Print()
 }
 bool EndNext()
 {
-  return getnext==0;
+  return getnext->next==0;
 }
 bool EndPrev()
 {

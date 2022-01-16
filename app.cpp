@@ -50,23 +50,25 @@ void LinkedListTest()
     println(ll.GetPrev());
   ll.Add(2.2);
   ll.Add(3.3);
+
   println("Forward iteration");
   // This resets the iterator, and returns the first value
   println(ll.GetNext(true));
   while(!ll.EndNext())
     println(ll.GetNext());
+  
   println("Reverse iteration");
   // This resets the iterator, and returns the last value
   println(ll.GetPrev(true));
   while(!ll.EndPrev())
     println(ll.GetPrev());
+  
   println("LinkedList.Print()");
   ll.Print();
   println("Iterator...");
   for(auto itr = ll.begin(); itr != ll.end(); itr++)
     std::cout << *itr << std::endl;
 }
-
 
 void DataToolsTest()
 {
