@@ -38,13 +38,21 @@ int main()
 
 void LinkedListTest()
 {
+  println("LinkedListTest...");
   LinkedList<float> ll;
   ll.Add(1.1);
   ll.Add(2.2);
   ll.Add(3.3);
-  println(ll.Get(true));
-  while(!ll.EndOfData())
-    println(ll.Get());
+  println("Forward iteration");
+  println(ll.GetNext(true));
+  while(!ll.EndNext())
+    println(ll.GetNext());
+  println("Reverse iteration");
+  println(ll.GetPrev(true));
+  while(!ll.EndPrev())
+    println(ll.GetPrev());
+  println("LinkedList.Print()");
+  ll.Print();
 }
 
 
