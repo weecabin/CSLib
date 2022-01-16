@@ -10,6 +10,7 @@
 #include "Scheduler.h"
 #include "MyStrings.h"
 #include "PIDCtrl.h"
+#include "DataTools.h"
 
 #include <cstdlib>
 #include <iostream>
@@ -21,14 +22,30 @@ void CircularBufferTest();
 void CommandParserTest();
 void SchedulerTest();
 void PidCtrlTest();
+void DataToolsTest();
 
 int main() 
 {
-  PidCtrlTest();
+  DataToolsTest();
+  //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
   return 0;
+}
+
+void DataToolsTest()
+{
+  MinMaxDelta mmd;
+  for (float f=-2;f<4;f+=.21)
+  {
+    mmd.Add(f);      
+  }
+  print("Min: ");println(mmd.Min());
+  print("Max: ");println(mmd.Max());
+  print("Delta: ");println(mmd.Delta());
+  print("Sum: ");println(mmd.Sum());
+  print("Mean: ");println(mmd.Mean());
 }
 
 // PID testing
