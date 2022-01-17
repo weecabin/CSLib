@@ -76,11 +76,11 @@ void LinkedListTest()
   ll.Print();
   
   println("Iterator... up...");
-  for(auto itr = ll.Head(); itr != ll.End(); itr++)
+  for(auto itr = ll.Head(); itr != ll.End(); ++itr)
     std::cout << *itr << std::endl;
 
   auto itr = ll.Head();
-  itr++;
+  ++itr;
   itr.Remove();
   itr.Insert(99);
   itr = ll.Find(99);
@@ -90,7 +90,7 @@ void LinkedListTest()
   }
 
   println("Iterator... down...");
-  for(auto itr = ll.Tail(); itr != ll.End(); itr--)
+  for(auto itr = ll.Tail(); itr != ll.End(); --itr)
     std::cout << *itr << std::endl;
 }
 

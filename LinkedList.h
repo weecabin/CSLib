@@ -30,6 +30,7 @@ LinkedList()
 }
 ~LinkedList()
 {
+  if (values==0)return;
   println("~LinkedList");
   while(head!=tail)
   {
@@ -61,7 +62,7 @@ void Add(T t)
   dataend->prev = newEntry;
   if (head==tail)
   {
-    println("head==tail");
+    //println("head==tail");
     head->next=newEntry;
     newEntry->prev=head;
   }
@@ -142,6 +143,12 @@ class iterator
     return nodePtr != itr.nodePtr;
   } 
 
+  // Overload for the comparison operator ==
+  bool operator==(const iterator& itr) const 
+  {
+    return nodePtr == itr.nodePtr;
+  } 
+
   // Overload for the dereference operator *
   T& operator*() const 
   {
@@ -149,18 +156,17 @@ class iterator
   }
 
   // Overload for the postincrement operator ++
-  iterator operator++(int) 
+  iterator operator++() 
   {
-    iterator temp = *this;
     nodePtr = nodePtr->next;
-    return temp;
+    return *this;
   }
 
-  iterator operator--(int) 
+ // Overload for the postdecrement operator ++
+  iterator operator--() 
   {
-    iterator temp = *this;
     nodePtr = nodePtr->prev;
-    return temp;
+    return *this;
   }
 
   void Remove()
