@@ -8,10 +8,11 @@
 template<class T> class node
 {
   public:
-  node()
+  node(bool end=false)
   {
     prev=0;
     next=0;
+    this->end = end;
   }
   ~node()
   {
@@ -20,6 +21,7 @@ template<class T> class node
   T value;
   node<T> *prev;
   node<T> *next;
+  bool end=false;
 };
 // A doubly linked list bracked inclusively by head and tail pointers.
 // A dataend element marks past the end while iteratung either direction.
@@ -50,7 +52,7 @@ void Add(T t)
     head = tail = new node<T>;
     head->value=t;
     // add the end node and hook it into both ends of head
-    dataend = new node<T>();
+    dataend = new node<T>(true);
     head->next = dataend;
     head->prev = dataend;
     dataend->prev=head;
@@ -172,7 +174,7 @@ class iterator
     return *this;
   }
 
-  void Remove()
+  void remove()
   {
     nodePtr->prev->next = nodePtr->next;
     nodePtr->next->prev = nodePtr->prev;
@@ -181,7 +183,7 @@ class iterator
     nodePtr = temp;
   }
 
-  void Insert(T t)
+  void insert(T t)
   {
     node<T> *newval = new node<T>();
     newval->value = t;
@@ -192,6 +194,55 @@ class iterator
 
     newval->next = nodePtr;
     nodePtr->prev = newval;
+  }
+
+  iterator next(int count=1)
+  {
+    for (int i=0;i<count;i++)
+    {
+      nodePtr=nodePtr->next;
+      if (nodePtr->end)
+        break;
+    }
+    return *this;
+  }
+
+  iterator prev(int count=1)
+  {
+    for (int i=0;i<count;i++)
+    {
+      nodePtr=nodePtr->prev;
+      if (nodePtr->end)
+        break;
+    }
+    return *this;
+  }
+
+  iterator findnext(T t)
+  {
+    node<T> *temp = nodePtr;
+    while(!temp->end)
+    {
+      if (temp->value==t)
+        break;
+      temp=temp->next;
+    }
+   nodePtr=temp;
+   return *this;
+  }
+
+  iterator findprev(T t)
+  {
+    node<T> *temp = nodePtr;
+    if (temp->end)temp=temp->prev;
+    while(!temp->end)
+    {
+      if (temp->value==t)
+        break;
+      temp=temp->prev;
+    }
+   nodePtr=temp;
+   return *this;
   }
 }; // End of inner class iterator
 
@@ -210,7 +261,7 @@ iterator End() const
   return iterator(dataend);
 }
 
-iterator Find(T t) const
+iterator FindNext(T t) const
 {
   node<T> *temp = head;
   while(temp!=dataend)
@@ -224,6 +275,19 @@ iterator Find(T t) const
   return iterator(dataend);
 }
 
+iterator FindPrev(T t) const
+{
+  node<T> *temp = head;
+  while(temp!=dataend)
+  {
+    if (temp->value == t)
+    {
+      return iterator(temp);
+    }
+    temp = temp->prev;
+  }
+  return iterator(dataend);
+}
 private:
 node<T> *head;
 node<T> *tail;

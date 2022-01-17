@@ -69,7 +69,7 @@ void LinkedListTest()
   while(!ll.EndPrev())
     println(ll.GetPrev());
 
-  for (float f=4.0;f<10;f+=.65)
+  for (float f=4.0;f<10;f+=.5)
     ll.Add(f);
   
   println("LinkedList.Print()");
@@ -82,11 +82,11 @@ void LinkedListTest()
   println("Remove a node");
   auto itr = ll.Head();
   ++itr;
-  itr.Remove();
+  itr.remove();
   println("Insert 99");
-  itr.Insert(99);
+  itr.insert(99);
   println("find it");
-  itr = ll.Find(99);
+  itr = ll.FindNext(99);
   if (itr!=ll.End())
   {
     print("found ");println(*itr);
@@ -95,6 +95,20 @@ void LinkedListTest()
   println("Iterator... down...");
   for(auto itr = ll.Tail(); itr != ll.End(); --itr)
     std::cout << *itr << std::endl;
+
+  println("*itr.next()...");
+  itr = ll.Head();
+  println(*itr.next());
+  println("*itr.next(3)...");
+  println(*itr.next(3));
+  println("*itr.next(99), 0 indicates end...");
+  println(*itr.next(99));
+  println("*itr.prev()...");
+  println(*itr.prev());
+  println("*itr.findprev(6)...");
+  println(*itr.findprev(6));
+  println("*itr.findnext(9)...");
+  println(*itr.findnext(9));
 }
 
 void DataToolsTest()
