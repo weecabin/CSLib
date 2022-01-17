@@ -68,6 +68,9 @@ void LinkedListTest()
   println(ll.GetPrev(true));
   while(!ll.EndPrev())
     println(ll.GetPrev());
+
+  for (float f=4.0;f<10;f+=.65)
+    ll.Add(f);
   
   println("LinkedList.Print()");
   ll.Print();
@@ -75,6 +78,11 @@ void LinkedListTest()
   println("Iterator... up...");
   for(auto itr = ll.Head(); itr != ll.End(); itr++)
     std::cout << *itr << std::endl;
+
+  auto itr = ll.Head();
+  itr++;
+  itr.Remove();
+  itr.Insert(99);
 
   println("Iterator... down...");
   for(auto itr = ll.Tail(); itr != ll.End(); itr--)

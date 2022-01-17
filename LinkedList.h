@@ -164,6 +164,27 @@ class iterator
     return temp;
   }
 
+  void Remove()
+  {
+    nodePtr->prev->next = nodePtr->next;
+    nodePtr->next->prev = nodePtr->prev;
+    node<T> *temp = nodePtr->next;
+    delete nodePtr;
+    nodePtr = temp;
+  }
+
+  void Insert(T t)
+  {
+    node<T> *newval = new node<T>();
+    newval->value = t;
+    node<T> *oldprev = nodePtr->prev;
+
+    oldprev->next = newval;
+    newval->prev = oldprev;
+
+    newval->next = nodePtr;
+    nodePtr->prev = newval;
+  }
 }; // End of inner class iterator
 
 iterator Head() const 
