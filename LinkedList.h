@@ -21,7 +21,8 @@ template<class T> class node
   node<T> *prev;
   node<T> *next;
 };
-
+// A doubly linked list bracked inclusively by head and tail pointers.
+// A dataend element marks past the end while iteratung either direction.
 template<class T> class LinkedList
 {
 public:
@@ -41,13 +42,14 @@ LinkedList()
   delete head;
   delete dataend;
 }
+// adds a new value after tail
 void Add(T t)
 {
   if (values++==0)
   {
     head = tail = new node<T>;
     head->value=t;
-    // add the end node
+    // add the end node and hook it into both ends of head
     dataend = new node<T>();
     head->next = dataend;
     head->prev = dataend;
@@ -129,6 +131,7 @@ class iterator
 {
   friend class LinkedList;
   private:
+  // points to the node the iterator is pointing to
   node<T> *nodePtr;
   // The constructor is private, so only our friends
   // can create instances of iterators.
@@ -155,14 +158,14 @@ class iterator
     return nodePtr->value;
   }
 
-  // Overload for the postincrement operator ++
+  // Overload for the preincrement operator ++
   iterator operator++() 
   {
     nodePtr = nodePtr->next;
     return *this;
   }
 
- // Overload for the postdecrement operator ++
+ // Overload for the predecrement operator ++
   iterator operator--() 
   {
     nodePtr = nodePtr->prev;

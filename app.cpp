@@ -57,13 +57,13 @@ void LinkedListTest()
   ll.Add(2.2);
   ll.Add(3.3);
 
-  println("Forward iteration");
+  println("Traverse up...");
   // This resets the iterator, and returns the first value
   println(ll.GetNext(true));
   while(!ll.EndNext())
     println(ll.GetNext());
   
-  println("Reverse iteration");
+  println("Traverse down...");
   // This resets the iterator, and returns the last value
   println(ll.GetPrev(true));
   while(!ll.EndPrev())
@@ -79,10 +79,13 @@ void LinkedListTest()
   for(auto itr = ll.Head(); itr != ll.End(); ++itr)
     std::cout << *itr << std::endl;
 
+  println("Remove a node");
   auto itr = ll.Head();
   ++itr;
   itr.Remove();
+  println("Insert 99");
   itr.Insert(99);
+  println("find it");
   itr = ll.Find(99);
   if (itr!=ll.End())
   {
