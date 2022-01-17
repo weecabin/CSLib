@@ -83,6 +83,11 @@ void LinkedListTest()
   itr++;
   itr.Remove();
   itr.Insert(99);
+  itr = ll.Find(99);
+  if (itr!=ll.End())
+  {
+    print("found ");println(*itr);
+  }
 
   println("Iterator... down...");
   for(auto itr = ll.Tail(); itr != ll.End(); itr--)

@@ -123,7 +123,6 @@ bool EndPrev()
 }
 
 // Inner class iterator
-// needs to be ported to my list
 // http://www2.lawrence.edu/fast/GREGGJ/CMSC270/linked/iterators.html
 class iterator 
 {
@@ -199,6 +198,20 @@ iterator Tail() const
 
 iterator End() const
 {
+  return iterator(dataend);
+}
+
+iterator Find(T t) const
+{
+  node<T> *temp = head;
+  while(temp!=dataend)
+  {
+    if (temp->value == t)
+    {
+      return iterator(temp);
+    }
+    temp = temp->next;
+  }
   return iterator(dataend);
 }
 
