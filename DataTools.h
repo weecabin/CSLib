@@ -1,5 +1,6 @@
 #ifndef DATATOOLS_H
 #define DATATOOLS_H
+#include "LinkedList.h"
 
 class MinMaxDelta
 {
@@ -17,11 +18,27 @@ class MinMaxDelta
       sum=x;
       return;
     }
+    ll.Add(x);
     sum+=x;
     if (x<min)
       min=x;
     if (x>max)
       max=x;
+  }
+  float Variance()
+  {
+    float mean=Mean();
+    float var=0;
+    for(auto itr=ll.Head();itr!=ll.End();++itr)
+    {
+      var += pow((*itr-mean),2);
+    }
+    var /=valuesIn;
+    return var;
+  }
+  float Stdev()
+  {
+    return pow(Variance(),.5);
   }
   float Min()
   {
@@ -48,6 +65,7 @@ private:
   float max;
   int valuesIn=0;
   float sum;
+  LinkedList<float> ll;
 };
 
 #endif

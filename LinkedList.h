@@ -16,7 +16,7 @@ template<class T> class node
   }
   ~node()
   {
-    print("~node ");println(value);
+    //print("~node ");println(value);
   }
   T value;
   node<T> *prev;

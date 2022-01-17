@@ -27,8 +27,8 @@ void LinkedListTest();
 
 int main() 
 {
-  LinkedListTest();
-  //DataToolsTest();
+  //LinkedListTest();
+  DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
@@ -114,7 +114,7 @@ void LinkedListTest()
 void DataToolsTest()
 {
   MinMaxDelta mmd;
-  for (float f=-2;f<4;f+=.21)
+  for (float f=-2;f<4;f+=.012)
   {
     mmd.Add(f);      
   }
@@ -123,6 +123,8 @@ void DataToolsTest()
   print("Delta: ");println(mmd.Delta());
   print("Sum: ");println(mmd.Sum());
   print("Mean: ");println(mmd.Mean());
+  print("Variance: ");println(mmd.Variance());
+  print("stdev: ");println(mmd.Stdev());
 }
 
 // PID testing
