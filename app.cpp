@@ -41,13 +41,19 @@ void LinkedListTest()
   println("LinkedListTest...");
   LinkedList<float> ll;
   ll.Add(1.1);
-  // make sure iterators work with only one value in
+  
+  // make sure list works with only one value in
+  println("GetNext(true)...");
   println(ll.GetNext(true));
   while(!ll.EndNext())
     println(ll.GetNext());
+  
+  println("GetPrev(true)...");
   println(ll.GetPrev(true));
   while(!ll.EndPrev())
     println(ll.GetPrev());
+
+  println("Add two more terms");
   ll.Add(2.2);
   ll.Add(3.3);
 
@@ -65,8 +71,13 @@ void LinkedListTest()
   
   println("LinkedList.Print()");
   ll.Print();
-  println("Iterator...");
-  for(auto itr = ll.begin(); itr != ll.end(); itr++)
+  
+  println("Iterator... up...");
+  for(auto itr = ll.Head(); itr != ll.End(); itr++)
+    std::cout << *itr << std::endl;
+
+  println("Iterator... down...");
+  for(auto itr = ll.Tail(); itr != ll.End(); itr--)
     std::cout << *itr << std::endl;
 }
 
