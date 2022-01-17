@@ -12,6 +12,7 @@
 #include "PIDCtrl.h"
 #include "DataTools.h"
 #include "LinkedList.h"
+#include "Navigation.h"
 #include <cstdlib>
 #include <iostream>
 
@@ -27,9 +28,10 @@ void LinkedListTest();
 
 int main() 
 {
+  //println(HeadingError(5.1,355.2));
   //LinkedListTest();
-  DataToolsTest();
-  //PidCtrlTest();
+  //DataToolsTest();
+  PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
@@ -142,6 +144,7 @@ void PidCtrlTest()
   }
   pid.Print();
   print("Correction: ");println(pid.Correction());
+  print("delta: ");println(pid.DeltaError());
 }
 
 // Scheduler TEsting

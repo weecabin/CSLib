@@ -1,4 +1,5 @@
 #include "PIDCtrl.h"
+#include <cmath>
 
 #define print(x)(std::cout<<x)
 #define println(x)(std::cout<<x<<"\n")
@@ -74,7 +75,7 @@ float PIDCtrl::DeltaError()
   for (int i=0;i<buffer.ValuesIn();i++)
     for (int j=i+1;j<buffer.ValuesIn()-1;j++)
     {
-      float test = abs(buffer[i]-buffer[j]);
+      float test = std::abs(buffer[i]-buffer[j]);
       if (test>max)
         max=test;
     }

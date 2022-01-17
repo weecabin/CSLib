@@ -12,8 +12,8 @@ float HeadingError(float target, float actual)
   target = FixHeading(target);
   actual = FixHeading(actual);
   float diff = actual-target;
-  if (diff>180)diff=diff-360;
-  if (diff<-180)diff+=360;
+  if (diff>180.0)diff=diff-360.0;
+  if (diff<-180.0)diff+=360.0;
   return diff;
 }
 #endif
