@@ -34,7 +34,7 @@ LinkedList()
 ~LinkedList()
 {
   if (values==0)return;
-  println("~LinkedList");
+  //println("~LinkedList");
   while(head!=tail)
   {
     node<T> *temp=tail;

@@ -16,6 +16,7 @@ class MinMaxDelta
       min=x;
       max=x;
       sum=x;
+      ll.Add(x);
       return;
     }
     ll.Add(x);

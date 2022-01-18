@@ -30,8 +30,8 @@ int main()
 {
   //println(HeadingError(5.1,355.2));
   //LinkedListTest();
-  //DataToolsTest();
-  PidCtrlTest();
+  DataToolsTest();
+  //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
@@ -116,7 +116,7 @@ void LinkedListTest()
 void DataToolsTest()
 {
   MinMaxDelta mmd;
-  for (float f=-2;f<4;f+=.012)
+  for (float f=1;f<10;f+=1)
   {
     mmd.Add(f);      
   }
