@@ -47,6 +47,12 @@ void NavigationTest()
   println("******** NavigationTest ********");
   println("HeadingError(5.1,355.2) (target,current)");
   println(HeadingError(5.1,355.2));
+  println("FixHeading(370)");
+  println(FixHeading(370));
+  println("FixHeading(-10)");
+  println(FixHeading(-10));
+  println("FixHeading(180)");
+  println(FixHeading(180));
 }
 
 void LinkedListTest()
