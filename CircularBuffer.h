@@ -61,7 +61,7 @@ template <class T> class CircularBuffer
   }
   bool Full()
   {
-    return valuesIn==size;
+    return valuesIn==size-1;
   }
   void Push(T value)
   {

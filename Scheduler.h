@@ -59,7 +59,6 @@ enum RunStatus {waiting,runcomplete,killme };
 class BaseTask
 {
   public:
-  // functionPtr = pointer to function called when task runs
   // runIntervalSeconds = time between task starts
   // starts = number of times to run. kill task after this
   BaseTask(float runIntervalSeconds, int starts=0)
@@ -179,6 +178,7 @@ class Scheduler
   }
   void AddTask(BaseTask *task)
   {
+    if (!buff.Full())
     buff.Push(task);
   }
   ~Scheduler()

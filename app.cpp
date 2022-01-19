@@ -29,8 +29,8 @@ void LinkedListTest();
 int main() 
 {
   //println(HeadingError(5.1,355.2));
-  //LinkedListTest();
-  DataToolsTest();
+  LinkedListTest();
+  //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
@@ -40,7 +40,7 @@ int main()
 
 void LinkedListTest()
 {
-  println("LinkedListTest...");
+  println("******** LinkedListTest ********");
   LinkedList<float> ll;
   ll.Add(1.1);
   
@@ -115,7 +115,8 @@ void LinkedListTest()
 
 void DataToolsTest()
 {
-  MinMaxDelta mmd;
+  println("******** DataToolsTest ********")
+;  MinMaxDelta mmd;
   for (float f=1;f<10;f+=1)
   {
     mmd.Add(f);      
