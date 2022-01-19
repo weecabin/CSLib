@@ -44,15 +44,37 @@ int main()
 
 void NavigationTest()
 {
-  println("******** NavigationTest ********");
-  println("HeadingError(5.1,355.2) (target,current)");
+  println("\n******** NavigationTest ********");
+  
+  print("HeadingError(5.1,355.2) (target,current) = ");
   println(HeadingError(5.1,355.2));
-  println("FixHeading(370)");
+
+  print("HeadingError(730,710) = ");
+  println(HeadingError(730,710));
+
+  print("HeadingError(710,730) = ");
+  println(HeadingError(710,730));
+
+  print("HeadingError(710,710) = ");
+  println(HeadingError(710,710));
+
+  print("FixHeading(0) = ");
+  println(FixHeading(0));
+  
+  print("FixHeading(370) = ");
   println(FixHeading(370));
-  println("FixHeading(-10)");
+  
+  print("FixHeading(-10) = ");
   println(FixHeading(-10));
-  println("FixHeading(180)");
+  
+  print("FixHeading(180) = ");
   println(FixHeading(180));
+
+  print("FixHeading(730) = ");
+  println(FixHeading(730));
+
+  print("FixHeading(710) = ");
+  println(FixHeading(710));
 }
 
 void LinkedListTest()
