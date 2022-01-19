@@ -10,14 +10,17 @@
 #include "Scheduler.h"
 #include "MyStrings.h"
 #include "PIDCtrl.h"
-#include "DataTools.h"
+#include "Stats.h"
 #include "LinkedList.h"
 #include "Navigation.h"
 #include <cstdlib>
 #include <iostream>
 
+#ifndef PRINTX
+#define PRINTX
 #define print(x)(std::cout<<x)
 #define println(x)(std::cout<<x<<"\n")
+#endif
 
 void CircularBufferTest();
 void CommandParserTest();
@@ -25,17 +28,25 @@ void SchedulerTest();
 void PidCtrlTest();
 void DataToolsTest();
 void LinkedListTest();
+void NavigationTest();
 
 int main() 
 {
-  //println(HeadingError(5.1,355.2));
-  LinkedListTest();
+  NavigationTest();
+  //LinkedListTest();
   //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
   return 0;
+}
+
+void NavigationTest()
+{
+  println("******** NavigationTest ********");
+  println("HeadingError(5.1,355.2) (target,current)");
+  println(HeadingError(5.1,355.2));
 }
 
 void LinkedListTest()
@@ -115,19 +126,22 @@ void LinkedListTest()
 
 void DataToolsTest()
 {
-  println("******** DataToolsTest ********")
-;  MinMaxDelta mmd;
+  println("******** StatsTest ********");
+  Stats stats;
   for (float f=1;f<10;f+=1)
   {
-    mmd.Add(f);      
+    stats.Add(f);      
   }
-  print("Min: ");println(mmd.Min());
-  print("Max: ");println(mmd.Max());
-  print("Delta: ");println(mmd.Delta());
-  print("Sum: ");println(mmd.Sum());
-  print("Mean: ");println(mmd.Mean());
-  print("Variance: ");println(mmd.Variance());
-  print("stdev: ");println(mmd.Stdev());
+  stats.Print();
+  /*
+  print("Min: ");println(stats.Min());
+  print("Max: ");println(stats.Max());
+  print("Delta: ");println(stats.Delta());
+  print("Sum: ");println(stats.Sum());
+  print("Mean: ");println(stats.Mean());
+  print("Variance: ");println(stats.Variance());
+  print("stdev: ");println(stats.Stdev());
+  */
 }
 
 // PID testing
