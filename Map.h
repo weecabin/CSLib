@@ -66,18 +66,24 @@ template<class A, class B> class Map
       return;
     }
     MapNode<A,B> *node = ll.GetNext(true);
-    while(!ll.EndNext())
-    { 
-      //println("inwhile");
-      if (key < node->Key())
+    if (key < node->Key())
       {
         //print("inserting at ");println(node->Key());
         ll.InsertAtNext(new MapNode<A,B>(key,value));
         return;
       }
+    while(!ll.EndNext())
+    { 
+      //println("inwhile");      
       node = ll.GetNext();
+      if (key < node->Key())
+      {
+        //print("inserting at ");println(node->Key());
+        ll.InsertAtNext(new MapNode<A,B>(key,value));
+        return;
+      } 
     }
-    ll.InsertAtNext(new MapNode<A,B>(key,value));
+    Add(key,value);
   }
   void Add(A key, B value)
   {
@@ -100,6 +106,7 @@ template<class A, class B> class Map
   }
   void List(void (*callback)(A,B),int count=-1)
   {
+    //println("in List");
     MapNode<A,B> *node = ll.GetNext(true);
     callback(node->Key(),node->Value());
     if (--count==0)return;

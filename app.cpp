@@ -45,6 +45,10 @@ const char key2[] = "k2";
 const char key3[] = "k3";
 const char key4[] = "k4";
 const char key5[] = "k5";
+void ListCallback(const char* key,float value)
+{
+  print("key:");print(key);print("=");println(value);
+}
 void MapTest()
 {
   println("\n******** MapTest ********");
@@ -70,7 +74,23 @@ void MapTest()
   m.AddSorted(key1,100);
   println("m.Print()");
   m.Print();
+  println("m.List");
+  m.List(ListCallback);
 
+  println("clear the map, then add 5 with AddSorted in the following order...");
+  println("key1,key4,key3,key2,key5");
+  m.Clear();
+  println("m.Clear() completed");
+  m.AddSorted(key1,100);
+  m.AddSorted(key4,400);
+  m.AddSorted(key3,300);
+  m.AddSorted(key2,200);
+  m.AddSorted(key5,500);
+  println("m.Print()");
+  m.Print();
+  println("m.List");
+  m.List(ListCallback);
+  
   Map<float,vector<float>> mf;
   vector<float> v{1.1,2.2,3.3};
   mf.Add(.1,v);
