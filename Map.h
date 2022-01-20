@@ -104,6 +104,23 @@ template<class A, class B> class Map
     }
     return node->Value();
   }
+  B GetValue(int index)
+  {
+    if (index>=ll.ValuesIn())throw;
+    int i=0;
+    MapNode<A,B> *node = ll.GetNext(true);
+    //println(node->Value());
+    if (i++==index)
+      return node->Value();
+    while(!ll.EndNext())
+    { 
+      node = ll.GetNext();
+      //println(node->Value());
+      if (i++==index)
+        break;
+    }
+    return node->Value();
+  }
   void List(void (*callback)(A,B),int count=-1)
   {
     //println("in List");

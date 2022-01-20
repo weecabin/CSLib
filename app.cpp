@@ -91,6 +91,11 @@ void MapTest()
   println("m.List");
   m.List(ListCallback);
   
+  println("m.GetValue(2)");
+  println(m.GetValue(2));
+  println("m.GetValue(0)");
+  println(m.GetValue(0));
+  
   Map<float,vector<float>> mf;
   vector<float> v{1.1,2.2,3.3};
   mf.Add(.1,v);
