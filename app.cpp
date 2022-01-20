@@ -42,6 +42,8 @@ int main()
 const char key1[] = "k1";
 const char key2[] = "k2";
 const char key3[] = "k3";
+const char key4[] = "k4";
+const char key5[] = "k5";
 void MapTest()
 {
   println("\n******** MapTest ********");
@@ -53,10 +55,20 @@ void MapTest()
   println("Add two more, then get them all");
   m.Add(key2,200);
   m.Add(key3,300);
-  print("key1: ");println(m.Value(key1));
-  print("key2: ");println(m.Value(key2));
-  print("key3: ");println(m.Value(key3));
   print("key1/key2: ");println(m.Value(key1)/m.Value(key2));
+  println("m.Print()");
+  m.Print();
+  println("clear the map, then add 5 with AddSorted in the following order...");
+  println("key5,key4,key3,key2,key1");
+  m.Clear();
+  println("m.Clear() completed");
+  m.AddSorted(key5,500);
+  m.AddSorted(key4,400);
+  m.AddSorted(key3,300);
+  m.AddSorted(key2,200);
+  m.AddSorted(key1,100);
+  println("m.Print()");
+  m.Print();
 }
 
 void NavigationTest()
@@ -167,6 +179,9 @@ void LinkedListTest()
   println(*itr.findprev(6));
   println("*itr.findnext(9)...");
   println(*itr.findnext(9));
+
+  println("list it before destructor executes");
+  ll.Print();
 }
 
 void DataToolsTest()

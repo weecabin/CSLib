@@ -27,29 +27,41 @@ template<class T> class LinkedList
 public:
 LinkedList()
 {
+  dataend = new node<T>(true);
 }
 ~LinkedList()
 {
+  Clear();
+  println("delete dataend");
+  delete dataend;
+}
+int ValuesIn()
+{
+  return values;
+}
+void Clear()
+{
   if (values==0)return;
-  //println("~LinkedList");
   while(head!=tail)
   {
     node<T> *temp=tail;
+    //println("delete node");
     tail=tail->prev;
     delete temp;
   }
+  //println("delete node");
   delete head;
-  delete dataend;
+  values=0;
 }
 // adds a new value after tail
 void Add(T t)
 {
   if (values++==0)
   {
+    //println("first LL");
     head = tail = new node<T>;
     head->value=t;
     // add the end node and hook it into both ends of head
-    dataend = new node<T>(true);
     head->next = dataend;
     head->prev = dataend;
     dataend->prev=head;
@@ -87,6 +99,20 @@ T GetNext(bool reset=false)
   node<T> *temp=getnext;
   getnext=getnext->next;
   return temp->value;
+}
+void InsertAtNext(T t)
+{
+  node<T> *newEntry = new node<T>();
+  newEntry->value=t;
+  node<T> *before = getnext->prev;
+  if (before==head)head=newEntry;
+  node<T> *after = before->prev;
+
+  after->next = newEntry;
+  newEntry->prev = after;
+
+  before->prev = newEntry;
+  newEntry->next = before;
 }
 T GetPrev(bool reset=false)
 {
