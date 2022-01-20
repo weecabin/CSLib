@@ -14,14 +14,8 @@
 #include "LinkedList.h"
 #include "Navigation.h"
 #include "Map.h"
+#include "MyDefines.h"
 #include <cstdlib>
-#include <iostream>
-
-#ifndef PRINTX
-#define PRINTX
-#define print(x)(std::cout<<x)
-#define println(x)(std::cout<<x<<"\n")
-#endif
 
 void CircularBufferTest();
 void CommandParserTest();
@@ -52,13 +46,14 @@ void MapTest()
 {
   println("\n******** MapTest ********");
   println("Add (key1,100),(key2,200),(key3,300)");
-  Map<const char*,int> m;
+  Map<const char*,float> m;
   m.Add(key1,100);
   m.Add(key2,200);
   m.Add(key3,300);
   print("key1: ");println(m.Value(key1));
   print("key2: ");println(m.Value(key2));
   print("key3: ");println(m.Value(key3));
+  print("key1/key2: ");println(m.Value(key1)/m.Value(key2));
 }
 
 void NavigationTest()

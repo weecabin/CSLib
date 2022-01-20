@@ -1,12 +1,7 @@
 #include "Stats.h"
 #include <cmath>
-#include <iostream>
 
-#ifndef PRINTX
-#define PRINTX
-#define print(x)(std::cout<<x)
-#define println(x)(std::cout<<x<<"\n")
-#endif
+#include "MyDefines.h"
 
   Stats::Stats()
   {

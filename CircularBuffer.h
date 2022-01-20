@@ -1,7 +1,9 @@
 
 #ifndef CIRCULARBUFFER_H
 #define CIRCULARBUFFER_H
-#include "iostream"
+
+#include "MyDefines.h"
+
 /*
 CircularBuffer
 Implements a buffer with a maximum size of size elements.
@@ -10,12 +12,6 @@ the buffer, and older elements are pushed down. if the newest element
 exceeds the buffer size, the oldest will be removed.
 the array operator [0] returns the most recent addition, or the Head of the buffer.
 */
-
-#ifndef PRINTX
-#define PRINTX
-#define print(x)(std::cout<<x)
-#define println(x)(std::cout<<x<<"\n")
-#endif
 
 template <class T> class CircularBuffer
 {

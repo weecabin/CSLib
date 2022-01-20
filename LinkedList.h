@@ -1,12 +1,6 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
-#include <iostream>
-
-#ifndef PRINTX
-#define PRINTX
-#define print(x)(std::cout<<x)
-#define println(x)(std::cout<<x<<"\n")
-#endif
+#include "MyDefines.h"
 
 template<class T> class node
 {

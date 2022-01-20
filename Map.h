@@ -1,12 +1,7 @@
 #ifndef MAP_H
 #define MAP_H
 #include "LinkedList.h"
-
-#ifndef PRINTX
-#define PRINTX
-#define print(x)(std::cout<<x)
-#define println(x)(std::cout<<x<<"\n")
-#endif
+#include "MyDefines.h"
 
 template<class A, class B> class MapNode
 {
