@@ -15,6 +15,7 @@
 #include "Navigation.h"
 #include "Map.h"
 #include "MyDefines.h"
+#include <vector>
 #include <cstdlib>
 
 void CircularBufferTest();
@@ -69,6 +70,11 @@ void MapTest()
   m.AddSorted(key1,100);
   println("m.Print()");
   m.Print();
+
+  Map<float,vector<float>> mf;
+  vector<float> v{1.1,2.2,3.3};
+  mf.Add(.1,v);
+  println(mf[.1][0]);
 }
 
 void NavigationTest()

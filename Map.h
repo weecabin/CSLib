@@ -40,6 +40,10 @@ template<class A, class B> class Map
     //print("delete key: ");println(node->Key());
     delete node;
   }
+  int Size()
+  {
+    return ll.ValuesIn();
+  }
   void Clear()
   {
     MapNode<A,B> *node = ll.GetNext(true);
@@ -79,7 +83,10 @@ template<class A, class B> class Map
   {
     ll.Add(new MapNode<A,B>(key,value));
   }
-
+  B operator[](A key)
+  {
+    return Value(key);
+  }
   B Value(A key)
   {
     MapNode<A,B> *node = ll.GetNext(true);
@@ -90,6 +97,18 @@ template<class A, class B> class Map
       node = ll.GetNext();
     }
     return node->Value();
+  }
+  void List(void (*callback)(A,B),int count=-1)
+  {
+    MapNode<A,B> *node = ll.GetNext(true);
+    callback(node->Key(),node->Value());
+    if (--count==0)return;
+    while(!ll.EndNext())
+    { 
+      node = ll.GetNext();
+      callback(node->Key(),node->Value());
+      if (--count==0)return;
+    }
   }
   void Print()
   {
@@ -102,6 +121,7 @@ template<class A, class B> class Map
     }
   }
   private:
+
   LinkedList<MapNode<A,B>*> ll;
 };
 
