@@ -48,6 +48,9 @@ void MapTest()
   println("Add (key1,100),(key2,200),(key3,300)");
   Map<const char*,float> m;
   m.Add(key1,100);
+  println("Get a key value with only one in the map");
+  print("key1: ");println(m.Value(key1));
+  println("Add two more, then get them all");
   m.Add(key2,200);
   m.Add(key3,300);
   print("key1: ");println(m.Value(key1));
