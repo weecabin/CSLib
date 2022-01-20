@@ -13,6 +13,7 @@
 #include "Stats.h"
 #include "LinkedList.h"
 #include "Navigation.h"
+#include "Map.h"
 #include <cstdlib>
 #include <iostream>
 
@@ -29,10 +30,12 @@ void PidCtrlTest();
 void DataToolsTest();
 void LinkedListTest();
 void NavigationTest();
+void MapTest();
 
 int main() 
 {
-  NavigationTest();
+  MapTest();
+  //NavigationTest();
   //LinkedListTest();
   //DataToolsTest();
   //PidCtrlTest();
@@ -40,6 +43,22 @@ int main()
   //CommandParserTest();
   //CircularBufferTest();
   return 0;
+}
+
+const char key1[] = "k1";
+const char key2[] = "k2";
+const char key3[] = "k3";
+void MapTest()
+{
+  println("\n******** MapTest ********");
+  println("Add (key1,100),(key2,200),(key3,300)");
+  Map<const char*,int> m;
+  m.Add(key1,100);
+  m.Add(key2,200);
+  m.Add(key3,300);
+  print("key1: ");println(m.Value(key1));
+  print("key2: ");println(m.Value(key2));
+  print("key3: ");println(m.Value(key3));
 }
 
 void NavigationTest()
@@ -137,7 +156,7 @@ void LinkedListTest()
   for(auto itr = ll.Tail(); itr != ll.End(); --itr)
     std::cout << *itr << std::endl;
 
-  println("*itr.next()...");
+  println("From Head, *itr.next()...");
   itr = ll.Head();
   println(*itr.next());
   println("*itr.next(3)...");
