@@ -5,10 +5,11 @@
 template<class T> class node
 {
   public:
+  // set end=true to indicate the end of the list
   node(bool end=false)
   {
-    prev=0;
-    next=0;
+    prev=nullptr;
+    next=nullptr;
     this->end = end;
   }
   ~node()

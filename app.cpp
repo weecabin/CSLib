@@ -29,9 +29,9 @@ void MapTest();
 
 int main() 
 {
-  MapTest();
+  //MapTest();
   //NavigationTest();
-  //LinkedListTest();
+  LinkedListTest();
   //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
