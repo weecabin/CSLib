@@ -29,11 +29,11 @@ void MapTest();
 
 int main() 
 {
-  MapTest();
+  //MapTest();
   //NavigationTest();
   //LinkedListTest();
   //DataToolsTest();
-  //PidCtrlTest();
+  PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
@@ -272,10 +272,13 @@ void PidCtrlTest()
   pid.Target(5);
   srand(2);
   float r = float(rand()%1000)/1000.0;
-  for (int i=0;i<12;i++)
+  for (int i=0;i<15;i++)
   {
-    r = float(rand()%1000)/1000.0;
-    pid.Add(4.5+r);
+    pid.Add(i*1.01);
+    if (pid.BufferIsFull())
+      println("buffer full");
+    else
+      println("buffer not full");
   }
   pid.Print();
   print("Correction: ");println(pid.Correction());

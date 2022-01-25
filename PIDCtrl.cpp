@@ -29,7 +29,6 @@ void PIDCtrl::SetCoefficients(float kp, float ki, float kd)
   while(!buffer.Full());
   sum=0;
   dataIn=0;
-
 }
 
 void PIDCtrl::SetSampleInterval(float ts)
@@ -56,7 +55,8 @@ float PIDCtrl::GetTs()
 
 bool PIDCtrl::BufferIsFull()
 {
-  return buffer.Full();
+  //std::cout<<"dataIn:"<<dataIn<<"bufferSize:"<<bufferSize<<"\n";
+  return dataIn>=bufferSize;
 }
 
 void PIDCtrl::Print()
@@ -78,6 +78,7 @@ float PIDCtrl::NextError(float error)
 {
   sum+=error-buffer.Tail();
   buffer.Push(error);
+  dataIn++;
   return Correction();
 }
 
@@ -100,6 +101,7 @@ float PIDCtrl::Add(float value)
   // add a new value and subtract the one to be removed from the buffer
   sum+=newEntry-buffer.Tail();
   buffer.Push(newEntry);
+  dataIn++;
   return Correction();
 }
 
