@@ -31,9 +31,9 @@ int main()
 {
   //MapTest();
   //NavigationTest();
-  //LinkedListTest();
+  LinkedListTest();
   //DataToolsTest();
-  PidCtrlTest();
+  //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
@@ -267,6 +267,8 @@ void DataToolsTest()
 // PID testing
 void PidCtrlTest()
 {
+  println("\n******** PidCtrlTest ********");
+  println("buffer length set to 10, adding 15");
   PIDCtrl pid(1,1,0,1,10);
   println("Set target to 5");
   pid.Target(5);

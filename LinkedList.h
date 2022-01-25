@@ -301,7 +301,7 @@ void erase(iterator itr)
         head = dataend->next;
       else if (ptr==tail)
         tail=dataend->prev;
-      //delete ptr;
+      delete ptr;
       values--;
       return;
     }
