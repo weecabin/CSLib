@@ -36,6 +36,7 @@ LinkedList()
   println("delete dataend");
   delete dataend;
 }
+
 int ValuesIn()
 {
   return values;
@@ -114,6 +115,7 @@ void InsertAtNext(T t)
 
   before->prev = newEntry;
   newEntry->next = before;
+  values++;
 }
 T GetPrev(bool reset=false)
 {
@@ -129,16 +131,28 @@ T GetPrev(bool reset=false)
   getprev=getprev->prev;
   return temp->value;
 }
-void Print()
+void Print(bool up = true)
 {
   if (values!=0)
   {
     print("values=");println(values);
-    node<T> *temp=head;
-    while(temp!=dataend) // looking for the dummy entry
+    if (up)
     {
-      println(temp->value);
-      temp=temp->next;
+      node<T> *temp=head;
+      while(temp!=dataend) // looking for the dummy entry
+      {
+        println(temp->value);
+        temp=temp->next;
+      }
+    }
+    else
+    {
+      node<T> *temp=tail;
+      while(temp!=dataend) // looking for the dummy entry
+      {
+        println(temp->value);
+        temp=temp->prev;
+      }
     }
   }
 }
@@ -198,28 +212,6 @@ class iterator
     return *this;
   }
 
-  void remove()
-  {
-    nodePtr->prev->next = nodePtr->next;
-    nodePtr->next->prev = nodePtr->prev;
-    node<T> *temp = nodePtr->next;
-    delete nodePtr;
-    nodePtr = temp;
-  }
-
-  void insert(T t)
-  {
-    node<T> *newval = new node<T>();
-    newval->value = t;
-    node<T> *oldprev = nodePtr->prev;
-
-    oldprev->next = newval;
-    newval->prev = oldprev;
-
-    newval->next = nodePtr;
-    nodePtr->prev = newval;
-  }
-
   iterator next(int count=1)
   {
     for (int i=0;i<count;i++)
@@ -269,6 +261,53 @@ class iterator
    return *this;
   }
 }; // End of inner class iterator
+
+void insert(iterator itr,T t)
+{
+  node<T> *ptr = head;
+  while(ptr!=dataend)
+  {
+    if (itr==iterator(ptr))
+    {
+      //print("found: ");println(ptr->value);
+      node<T> *newval = new node<T>();
+      newval->value = t;
+
+      ptr->prev->next = newval;
+      newval->prev = ptr->prev;
+
+      newval->next = ptr;
+      ptr->prev = newval;
+      values++;
+      return;
+    }
+    ptr=ptr->next;
+  }
+}
+
+void erase(iterator itr)
+{
+  node<T> *ptr = head;
+  while (ptr!=dataend)
+  {
+    if (itr==iterator(ptr))
+    {
+      //print("found: ");println(*itr);
+      //print("prev: ");println(ptr->prev->value);
+      //print("next: ");println(ptr->next->value);
+      ptr->prev->next = ptr->next;
+      ptr->next->prev = ptr->prev;
+      if (ptr==head)
+        head = dataend->next;
+      else if (ptr==tail)
+        tail=dataend->prev;
+      //delete ptr;
+      values--;
+      return;
+    }
+    ptr=ptr->next;
+  }
+}
 
 iterator Head() const 
 {
