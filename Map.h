@@ -27,6 +27,10 @@ template<class A, class B> class MapNode
 template<class A, class B> class Map
 {
   public:
+  Map(int maxsize=0)
+  {
+    this->maxsize=maxsize;
+  }
   ~Map()
   {
     if (ll.ValuesIn()==0)return;
@@ -70,6 +74,11 @@ template<class A, class B> class Map
       {
         //print("inserting at ");println(node->Key());
         ll.InsertAtNext(new MapNode<A,B>(key,value));
+        if (maxsize!=0 && ll.ValuesIn()>maxsize)
+        {
+          auto itr = ll.Tail();
+          ll.erase(itr);
+        }
         return;
       }
     while(!ll.EndNext())
@@ -80,6 +89,11 @@ template<class A, class B> class Map
       {
         //print("inserting at ");println(node->Key());
         ll.InsertAtNext(new MapNode<A,B>(key,value));
+        if (maxsize!=0 && ll.ValuesIn()>maxsize)
+        {
+          auto itr = ll.Tail();
+          ll.erase(itr);
+        }
         return;
       } 
     }
@@ -88,6 +102,11 @@ template<class A, class B> class Map
   void Add(A key, B value)
   {
     ll.Add(new MapNode<A,B>(key,value));
+    if (maxsize!=0 && ll.ValuesIn()>maxsize)
+    {
+      auto itr = ll.Tail();
+      ll.erase(itr);
+    }
   }
   B operator[](A key)
   {
@@ -151,7 +170,7 @@ template<class A, class B> class Map
     }
   }
   private:
-
+  int maxsize=0; // 0 = no limit
   LinkedList<MapNode<A,B>*> ll;
 };
 
