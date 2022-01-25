@@ -29,14 +29,14 @@ void MapTest();
 
 int main() 
 {
-  //MapTest();
+  MapTest();
   //NavigationTest();
   //LinkedListTest();
   //DataToolsTest();
-  PidCtrlTest();
+  //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
-  CircularBufferTest();
+  //CircularBufferTest();
   return 0;
 }
 
@@ -180,19 +180,38 @@ void LinkedListTest()
   for(auto itr = ll.Head(); itr != ll.End(); ++itr)
     std::cout << *itr << std::endl;
 
-  println("Remove a node");
+  println("Iterator... down...");
+  for(auto itr = ll.Tail(); itr != ll.End(); --itr)
+    std::cout << *itr << std::endl;
+  
+  println("Remove a node ll.erase(itr)");
   auto itr = ll.Head();
   ++itr;
-  itr.remove();
-  println("Insert 99");
-  itr.insert(99);
-  println("find it");
+  ll.erase(itr);
+  println("ll.Print(up)");
+  ll.Print();
+  println("ll.Print(down)");
+  ll.Print(false);
+  
+  println("Insert 99 at 3.3");
+  itr = ll.FindNext(3.3);
+  ll.insert(itr,99);
+  println("ll.Print(up)");
+  ll.Print();
+  println("ll.Print(down)");
+  ll.Print(false);
+  
+  println("find ll.FindNext(99)");
   itr = ll.FindNext(99);
   if (itr!=ll.End())
   {
     print("found ");println(*itr);
   }
 
+  println("Iterator... up...");
+  for(auto itr = ll.Head(); itr != ll.End(); ++itr)
+    std::cout << *itr << std::endl;
+  
   println("Iterator... down...");
   for(auto itr = ll.Tail(); itr != ll.End(); --itr)
     std::cout << *itr << std::endl;
@@ -202,6 +221,7 @@ void LinkedListTest()
   println(*itr.next());
   println("*itr.next(3)...");
   println(*itr.next(3));
+  
   println("*itr.next(99), 0 indicates end...");
   println(*itr.next(99));
   println("*itr.prev()...");
