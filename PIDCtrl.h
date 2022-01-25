@@ -43,11 +43,15 @@ class PIDCtrl
 
   // Prints out the buffer
   void Print();
+
+  bool BufferIsFull();
   
   private:
+  int bufferSize;
   CircularBuffer<float> buffer;
   float kp,ki,kd,ts=1;
   float target;
   float sum;
+  int dataIn=0;
 };
 #endif

@@ -37,6 +37,7 @@ template <class T> class CircularBuffer
     Clear();
     end=&buffer[size-1];
     this->size=size;
+    valuesIn=0;
   }
   void Clear()
   {
@@ -64,7 +65,7 @@ template <class T> class CircularBuffer
   }
   bool Full()
   {
-    return valuesIn==size;
+    return valuesIn>=size;
   }
   void Push(T value)
   {

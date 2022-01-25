@@ -5,11 +5,13 @@
 
 PIDCtrl::PIDCtrl (float kp,float ki,float kd,float ts, int bufferSize)
 {
+  this->bufferSize=bufferSize;
   buffer.SetSize(bufferSize);
   do
     buffer.Push(0);
   while(!buffer.Full());
   sum=0;
+  dataIn=0;
 
   this->kp=kp;
   this->ki=ki;
@@ -22,6 +24,12 @@ void PIDCtrl::SetCoefficients(float kp, float ki, float kd)
   this->kp=kp;
   this->ki=ki;
   this->kd=kd;
+  do
+    buffer.Push(0);
+  while(!buffer.Full());
+  sum=0;
+  dataIn=0;
+
 }
 
 void PIDCtrl::SetSampleInterval(float ts)
@@ -44,6 +52,11 @@ float PIDCtrl::GetKd()
 float PIDCtrl::GetTs()
 {
   return ts;
+}
+
+bool PIDCtrl::BufferIsFull()
+{
+  return buffer.Full();
 }
 
 void PIDCtrl::Print()

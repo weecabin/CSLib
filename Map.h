@@ -124,6 +124,11 @@ template<class A, class B> class Map
   void List(void (*callback)(A,B),int count=-1)
   {
     //println("in List");
+
+    if (count>0)
+    {
+      std::cout<<count<<" of "<<ll.ValuesIn()<<"\n";
+    }
     MapNode<A,B> *node = ll.GetNext(true);
     callback(node->Key(),node->Value());
     if (--count==0)return;
@@ -136,6 +141,7 @@ template<class A, class B> class Map
   }
   void Print()
   {
+    std::cout<<"LL ValuesIn: "<<ll.ValuesIn()<<"\n";
     MapNode<A,B> *node = ll.GetNext(true);
     std::cout<<"key: "<<node->Key()<<"  value: "<<node->Value()<<"\n";
     while(!ll.EndNext())

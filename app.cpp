@@ -31,12 +31,12 @@ int main()
 {
   //MapTest();
   //NavigationTest();
-  LinkedListTest();
+  //LinkedListTest();
   //DataToolsTest();
-  //PidCtrlTest();
+  PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
-  //CircularBufferTest();
+  CircularBufferTest();
   return 0;
 }
 
@@ -243,7 +243,7 @@ void PidCtrlTest()
   pid.Target(5);
   srand(2);
   float r = float(rand()%1000)/1000.0;
-  for (int i=0;i<10;i++)
+  for (int i=0;i<12;i++)
   {
     r = float(rand()%1000)/1000.0;
     pid.Add(4.5+r);
@@ -348,7 +348,11 @@ void CircularBufferTest()
   CircularBuffer<float> cb(10);
   //cb.SetSize(10);
   for (float i=1.1;i<20;i+=1.1)
+  {
     cb.Push(i);
+    if (cb.Full())println("Buffer Is Full");
+  }
+    
   cb.Print();
   std::cout <<"delete the third entry\n";
   cb.Delete(2);
