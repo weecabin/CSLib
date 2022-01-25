@@ -33,7 +33,7 @@ LinkedList()
 ~LinkedList()
 {
   Clear();
-  println("delete dataend");
+  //println("delete dataend");
   delete dataend;
 }
 

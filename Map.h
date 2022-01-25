@@ -61,6 +61,14 @@ template<class A, class B> class Map
     delete node;
     ll.Clear();
   }
+  void CheckSize()
+  {
+    if (maxsize!=0 && ll.ValuesIn()>maxsize)
+    {
+      auto itr = ll.Tail();
+      ll.erase(itr);
+    }
+  }
   void AddSorted(A key, B value)
   {
     if (ll.ValuesIn()==0)
@@ -74,11 +82,7 @@ template<class A, class B> class Map
       {
         //print("inserting at ");println(node->Key());
         ll.InsertAtNext(new MapNode<A,B>(key,value));
-        if (maxsize!=0 && ll.ValuesIn()>maxsize)
-        {
-          auto itr = ll.Tail();
-          ll.erase(itr);
-        }
+        CheckSize();
         return;
       }
     while(!ll.EndNext())
@@ -89,11 +93,7 @@ template<class A, class B> class Map
       {
         //print("inserting at ");println(node->Key());
         ll.InsertAtNext(new MapNode<A,B>(key,value));
-        if (maxsize!=0 && ll.ValuesIn()>maxsize)
-        {
-          auto itr = ll.Tail();
-          ll.erase(itr);
-        }
+        CheckSize();
         return;
       } 
     }
@@ -102,11 +102,7 @@ template<class A, class B> class Map
   void Add(A key, B value)
   {
     ll.Add(new MapNode<A,B>(key,value));
-    if (maxsize!=0 && ll.ValuesIn()>maxsize)
-    {
-      auto itr = ll.Tail();
-      ll.erase(itr);
-    }
+    CheckSize();
   }
   B operator[](A key)
   {

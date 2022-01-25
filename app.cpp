@@ -95,11 +95,20 @@ void MapTest()
   println(m.GetValue(2));
   println("m.GetValue(0)");
   println(m.GetValue(0));
-  
+
+  println("create a map with a vector as the value");
   Map<float,vector<float>> mf;
   vector<float> v{1.1,2.2,3.3};
   mf.Add(.1,v);
   println(mf[.1][0]);
+
+  println("Create a map with a size limit of 5 and add 10 elements");
+  Map<int,float> ml(5);
+  for (int i=0;i<10;i++)
+  {
+    ml.AddSorted(i,i*1.1);
+  }
+  ml.Print();
 }
 
 void NavigationTest()
