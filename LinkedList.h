@@ -70,23 +70,17 @@ void Add(T t)
     dataend->next=head;
     return;
   }
-  // create new element and insert it before dataend
+  // create new element and insert it between tail and dataend
   node<T> *newEntry = new node<T>();
   newEntry->value=t;
+
   newEntry->next=dataend;
   dataend->prev = newEntry;
-  if (head==tail)
-  {
-    //println("head==tail");
-    head->next=newEntry;
-    newEntry->prev=head;
-  }
-  else
-  {
-    // tail points to newEntry
-    tail->next = newEntry;
-    newEntry->prev=tail;
-  }
+
+  // point old tail to newEntry
+  tail->next = newEntry;
+  newEntry->prev=tail;
+  
   tail=newEntry;
 }
 T GetNext(bool reset=false)
