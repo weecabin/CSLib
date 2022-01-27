@@ -15,7 +15,7 @@ class Stats
   float Delta();
   float Mean();
   void Print();
-
+  void Clear();
   private:
   float min;
   float max;

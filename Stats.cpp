@@ -69,3 +69,10 @@
     print("Variance: ");println(Variance());
     print("stdev: ");println(Stdev());
   }
+  void Stats::Clear()
+  {
+    ll.Clear();
+    valuesIn=0;
+  }
+
+
