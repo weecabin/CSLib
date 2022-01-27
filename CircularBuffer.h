@@ -32,7 +32,7 @@ template <class T> class CircularBuffer
   }
   void SetSize(int size)
   {
-    if(buffer!=NULL)delete []buffer;
+    if(buffer!=nullptr)delete []buffer;
     buffer=new T[size];
     Clear();
     end=&buffer[size-1];
@@ -55,7 +55,7 @@ template <class T> class CircularBuffer
       { 
         std::cout << i;
         std::cout << ": ";
-        std::cout << operator[](i);
+        std::cout << (*this)[i];
         std::cout << "\n";
       }
   }
@@ -77,11 +77,11 @@ template <class T> class CircularBuffer
   }
   T Head()
   {
-    return operator[](0);
+    return (*this)[0];
   }
   T Tail()
   {
-    return operator[](valuesIn-1);
+    return (*this)[valuesIn-1];
   }
   int ValuesIn()
   {
@@ -130,10 +130,10 @@ template <class T> class CircularBuffer
     temp=end-(buffer-temp)+1;
     return temp;
   }
-  T *current=NULL;
-  T *buffer=NULL;
-  T *end=NULL;
-  T *invalid=NULL; 
+  T *current=nullptr;
+  T *buffer=nullptr;
+  T *end=nullptr;
+  T *invalid=nullptr; 
   int size;
   int valuesIn;
 };
