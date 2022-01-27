@@ -1,3 +1,4 @@
+
 // This is a basic program on C++
 //
 // Try to modify and run it and check out
@@ -5,6 +6,7 @@
 //
 // Happy coding! :-)
 
+#include "CircularBuffer2.h"
 #include "CircularBuffer.h"
 #include "CommandParser.h"
 #include "Scheduler.h"
@@ -19,6 +21,7 @@
 #include <cstdlib>
 #include <cmath>
 
+void CircularBufferTest2();
 void CircularBufferTest();
 void CommandParserTest();
 void SchedulerTest();
@@ -33,14 +36,53 @@ int main()
   //MapTest();
   //NavigationTest();
   //LinkedListTest();
-  DataToolsTest();
+  //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
   //CircularBufferTest();
+  CircularBufferTest2();
   return 0;
 }
 
+void CircularBufferTest2()
+{
+  println("\n******** CircularBufferTest2 ********");
+  CircularBuffer2<float> cb(5);
+  println("Add one and print it out");
+  cb.Push(1);
+  cb.Print();
+  println("Add 10 more (2-11) and print the buffer out");
+  for (int i=0;i<10;i++)
+    cb.Push(2+i);
+  cb.Print();
+  println("print head");
+  println(cb.Head());
+  println("print tail");
+  println(cb.Tail());
+  println("insert 99 at 2");
+  cb.Insert(2,99);
+  cb.Print();
+  println("delete value at 2");
+  cb.Delete(2);
+  cb.Print();
+  println("delete value at 3");
+  cb.Delete(3);
+  cb.Print();
+  println("delete value at 0");
+  cb.Delete(0);
+  cb.Print();
+  println("insert 99 at 0");
+  cb.Insert(0,99);
+  cb.Print();
+  println("clear");
+  cb.Clear();
+  cb.Print();
+  println("add 1-5");
+  for (int i = 1;i<6;i++)
+    cb.Push(i);
+  cb.Print();
+}
 const char key1[] = "k1";
 const char key2[] = "k2";
 const char key3[] = "k3";
@@ -394,7 +436,7 @@ void CircularBufferTest()
     cb.Push(i);
     if (cb.Full())println("Buffer Is Full");
   }
-    
+  println("print the buffer with .Print()");
   cb.Print();
   std::cout <<"delete the third entry\n";
   cb.Delete(2);
