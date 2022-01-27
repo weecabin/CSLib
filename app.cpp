@@ -17,6 +17,7 @@
 #include "MyDefines.h"
 #include <vector>
 #include <cstdlib>
+#include <cmath>
 
 void CircularBufferTest();
 void CommandParserTest();
@@ -31,8 +32,8 @@ int main()
 {
   //MapTest();
   //NavigationTest();
-  LinkedListTest();
-  //DataToolsTest();
+  //LinkedListTest();
+  DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
   //CommandParserTest();
@@ -148,7 +149,7 @@ void NavigationTest()
 
 void LinkedListTest()
 {
-  println("******** LinkedListTest ********");
+  println("\n******** LinkedListTest ********");
   LinkedList<float> ll;
   ll.Add(1.1);
   
@@ -246,12 +247,19 @@ void LinkedListTest()
 
 void DataToolsTest()
 {
-  println("******** StatsTest ********");
+  println("\n******** StatsTest ********");
   Stats stats;
-  for (float f=1;f<10;f+=1)
+  println("Adding 1-10");
+  for (float f=1;f<=10;f+=1)
   {
     stats.Add(f);      
   }
+  stats.Print();
+  stats.Clear();
+
+  println("\nAdding sin(0-PI)");
+  for (float a=0;a<M_PI;a+=.1)
+    stats.Add(sin(a));
   stats.Print();
   /*
   print("Min: ");println(stats.Min());
