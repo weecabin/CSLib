@@ -2,6 +2,7 @@
 #define CIRCULARBUFFER2_H
 
 #include "MyDefines.h"
+#include <stdexcept>
 
 /*
 CircularBuffer
@@ -10,6 +11,9 @@ from the outside, new elements appear to be added at the beginning of
 the buffer, and older elements are pushed down. if the newest element 
 exceeds the buffer size, the oldest will be removed.
 the array operator [0] returns the most recent addition, or the Head of the buffer.
+
+The difference between this and CircularBuffer is this...
+This version uses indexes to manage the buffer whereas CircularBuffer uses pointers.
 */
 
 template <class T> class CircularBuffer2
@@ -116,8 +120,10 @@ template <class T> class CircularBuffer2
   }
   T operator[](int i)
   {
-    if (i>=size || valuesIn==0)
-      return *invalid;
+    if (valuesIn==0)
+      throw std::invalid_argument( "List is empty" );
+    if (i>=size)
+      i=i%size;
     return buffer[Index(i)];
   }
   private:

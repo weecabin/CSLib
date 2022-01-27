@@ -77,11 +77,25 @@ void CircularBufferTest2()
   cb.Print();
   println("clear");
   cb.Clear();
+  println("try to access the empty list");
+  try
+    {
+      println(cb[1]);
+    }
+  catch (...)
+    {
+      println("oops, caught an exception");
+    }
+  println("print the empty list cb.Print()");
   cb.Print();
   println("add 1-5");
   for (int i = 1;i<6;i++)
     cb.Push(i);
   cb.Print();
+  println("retrieve an index >= size, it should wrap");
+  print("cb[5]=");println(cb[5]);
+  print("cb[6]=");println(cb[6]);
+  print("cb[7]=");println(cb[7]);
 }
 const char key1[] = "k1";
 const char key2[] = "k2";
