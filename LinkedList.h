@@ -53,6 +53,7 @@ void Clear()
   }
   //println("delete node");
   delete head;
+  head=tail=dataend;
   values=0;
 }
 // adds a new value after tail
