@@ -70,15 +70,12 @@ template <class T> class CircularBuffer2
   }
   void Push(T value)
   {
+    if (valuesIn==0)end=0;
     if (++valuesIn>size)
       valuesIn=size;
     if (++current>=size)
-    {
       current=0;
-      end=size-1;
-    }
-    if (current==end)end--;
-    if (end<0)end=size-1;
+    AdjustEnd();
     buffer[current]=value;
   }
   T Head()
@@ -108,6 +105,7 @@ template <class T> class CircularBuffer2
     buffer[Index(d)]=value;
     if (valuesIn==size)return;
     valuesIn++;
+    AdjustEnd();
   }
   void Delete(int d)
   {
@@ -116,6 +114,7 @@ template <class T> class CircularBuffer2
       buffer[Index(i)]=buffer[Index(i+1)];
     }
     valuesIn--;
+    AdjustEnd();
     return;
   }
   T operator[](int i)
@@ -126,7 +125,24 @@ template <class T> class CircularBuffer2
       i=i%size;
     return buffer[Index(i)];
   }
+  T Pull()
+  {
+    if (valuesIn==0)
+      throw std::invalid_argument( "List is empty" );
+    T temp = buffer[end];
+    valuesIn--;
+    if (++end>=size)
+      end=0;
+    return temp;
+  }
   private:
+  void AdjustEnd()
+  {
+    if (valuesIn==0)return;
+    end=current-valuesIn+1;
+    if (end<0)
+      end=size-1;
+  }
   int Index(int i)
   {
     int temp=current-i;
@@ -137,8 +153,8 @@ template <class T> class CircularBuffer2
   }
   T *buffer=nullptr;
   T *invalid=nullptr; 
-  int current=-1;
-  int end=-1;
+  int current=-1; // the index into the buffer of the last pushed value
+  int end=-1; // the index into the buffer of the oldest value
   int size;
   int valuesIn;
 };

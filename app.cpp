@@ -49,6 +49,7 @@ void CircularBufferTest2()
 {
   println("\n******** CircularBufferTest2 ********");
   CircularBuffer2<float> cb(5);
+  println("buffer size set to 5");
   println("Add one and print it out");
   cb.Push(1);
   cb.Print();
@@ -96,6 +97,10 @@ void CircularBufferTest2()
   print("cb[5]=");println(cb[5]);
   print("cb[6]=");println(cb[6]);
   print("cb[7]=");println(cb[7]);
+  println("pull a value out of the list");
+  println(cb.Pull());
+  println("list the buffer after the pull");
+  cb.Print();
 }
 const char key1[] = "k1";
 const char key2[] = "k2";
@@ -351,7 +356,7 @@ void PidCtrlTest()
   print("delta: ");println(pid.DeltaError());
 }
 
-// Scheduler TEsting
+// Scheduler Testing
 int count1=0;
 void task1()
 {
@@ -380,7 +385,7 @@ void idleTask()
   print("idleTask: ");println(++idle);
   MyTime t;
   // don't want to fill the screen with idleTask
-  do{}while(t.millis()<20);
+  do{}while(t.millis()<20);   
 }
 void SchedulerTest()
 {
@@ -443,7 +448,7 @@ void CircularBufferTest()
 {
   std::cout << "\n***** CircularBuffer Testing *****\n";
   std::cout << "Created buffer of 10 floats, then added more than 10\n";
-  CircularBuffer<float> cb(10);
+  CircularBuffer<float> cb(10); 
   //cb.SetSize(10);
   for (float i=1.1;i<20;i+=1.1)
   {
@@ -455,9 +460,4 @@ void CircularBufferTest()
   std::cout <<"delete the third entry\n";
   cb.Delete(2);
   cb.Print();
-}
-
-void SomeTestCode()
-{
-  
 }
