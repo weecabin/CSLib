@@ -134,6 +134,7 @@ template <class T> class CircularBuffer2
       i=i%size;
     return buffer[Index(i)];
   }
+
   // removes and returns the oldest value 
   T PopTail()
   {
@@ -145,6 +146,7 @@ template <class T> class CircularBuffer2
       tail=0;
     return temp;
   }
+
   // removes and returns the newest value
   T PopHead()
   {
@@ -161,11 +163,16 @@ template <class T> class CircularBuffer2
   private:
   void AdjustEnd()
   {
-    if (valuesIn==0)return;
+    if (valuesIn==0)
+    { 
+      head=tail=-1;
+      return;
+    }
     tail=head-valuesIn+1;
     if (tail<0)
       tail=size-1;
   }
+
   int Index(int i)
   {
     int temp=head-i;
@@ -174,6 +181,7 @@ template <class T> class CircularBuffer2
     temp+=size;
     return temp;
   }
+
   T *buffer=nullptr;
   T *invalid=nullptr; 
   int head=-1; // the index into the buffer of the last pushed value
