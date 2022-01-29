@@ -76,6 +76,16 @@ void CircularBufferTest2()
   println("insert 99 at 0");
   cb.Insert(0,99);
   cb.Print();
+  println("pop head");
+  println(cb.PopHead());
+  println("list the buffer after the pop");
+  cb.Print();
+  
+  println("pop tail");
+  println(cb.PopTail());
+  println("list the buffer after the pop");
+  cb.Print();
+  
   println("clear");
   cb.Clear();
   println("try to access the empty list");
@@ -97,11 +107,19 @@ void CircularBufferTest2()
   print("cb[5]=");println(cb[5]);
   print("cb[6]=");println(cb[6]);
   print("cb[7]=");println(cb[7]);
-  println("pull a value out of the list");
-  println(cb.Pull());
-  println("list the buffer after the pull");
+  
+  println("pop head");
+  println(cb.PopHead());
+  println("list the buffer after the pop");
+  cb.Print();
+  
+  println("pop tail");
+  println(cb.PopTail());
+  println("list the buffer after the pop");
   cb.Print();
 }
+
+// Map keys...
 const char key1[] = "k1";
 const char key2[] = "k2";
 const char key3[] = "k3";
