@@ -1,7 +1,63 @@
 #ifndef MAP1_H
 #define MAP1_H
 #include <iostream>
+#include <cstring>
 
+template <class A>
+class Equal
+{
+  public:
+  bool operator()(A a, A b)
+  {
+    return a==b;
+  }
+};
+
+template <>
+class Equal <const char*>
+{
+  public:
+  bool operator()(const char *str1, const char *str2)
+  {
+    //print("in template<>Equal\n");
+    if (strlen(str1)!=strlen(str2))
+      return false;
+    for (int i=0;i<strlen(str1)&&i<strlen(str2);i++)
+    {
+      if (str2[i]!=str1[i])
+        return false;
+    }
+    return true;
+  }
+};
+
+template<class A>
+class Less
+{
+  public:
+  bool operator()(A a,A b)
+  {
+    return a<b;
+  }
+};
+
+template<>
+class Less <const char *>
+{
+  public:
+  bool operator()(const char *str1, const char *str2)
+  {
+    //std::cout<<"In template<>Less\n";
+    for (int i=0;i<strlen(str1)&&i<strlen(str2);i++)
+    {
+      if (str2[i]<str1[i])
+        return false;
+    }
+    return true;
+  }
+};
+
+//template<class A, class Lt = Less<A>, class Eq = Equal<A>>
 // Node for the single (1) linked list Map1
 template<class A, class B> class Map1Node
 {
@@ -17,14 +73,17 @@ template<class A, class B> class Map1Node
   Map1Node<A,B> *next=nullptr;
 };
 
-template<class A, class B>
+template<class A, class B, class Lt = Less<A>, class Eq = Equal<A>>
 class Iterator
 {
     using Node2_t = Map1Node<A,B>;
     // constructor that takes in a pointer from the linked list
     public:
     Iterator() noexcept : current_node(nullptr){};
-    Iterator(Node2_t *node) noexcept : current_node(node){};
+    Iterator(Node2_t *node) noexcept : current_node(node)
+    {
+      //print("Iterator() creating: ");println(node->key);
+    };
 
     // incrementing means going through the list
     Iterator &operator++() noexcept
@@ -68,14 +127,16 @@ class Iterator
     // returns the Iterator associated with key
     Iterator operator[](A key)
     { 
+      //print("find: ");println(key);
       Node2_t *temp = current_node;
       while(temp->next!=nullptr)
       {
-        //println(temp->key);
-        if (temp->key==key)
+        //print("checking: ");println(temp->key);
+        if (eq(temp->key,key))
           break;
         temp=temp->next;
       }
+      print("operator[] found: ");println(temp->key);
       return Iterator(temp);
     }
 
@@ -83,11 +144,14 @@ private:
     // was going to use this for delete and insert, but it was messy
     // may visit it again
     //Node2_t *previous_node = nullptr;
+    Eq eq;
+    Lt lt;
     Node2_t *current_node = nullptr;
 };
 
+
 // Map1, implemented as a single linked list
-template<class A, class B> class Map1
+template<class A, class B, class Lt = Less<A>, class Eq = Equal<A> > class Map1
 {
   using Node2_t = Map1Node<A,B>;
   public:
@@ -122,16 +186,16 @@ template<class A, class B> class Map1
     Node2_t *ptr=first;
     while(ptr != endnode)
     {
-      if (ptr->key==key)
+      if (eq(ptr->key,key))
         break;
       prev=ptr;
       ptr=ptr->next;
     }
-    if (ptr == first)
+    if (eq(ptr,first))
     {
       first = ptr->next;
     }
-    else if (ptr == last)
+    else if (eq(ptr,last))
     {
       prev->next = endnode;
     }
@@ -166,7 +230,7 @@ template<class A, class B> class Map1
       Node2_t *prev=nullptr;
       while (ptr != endnode)
       {
-        if (key < ptr->key)
+        if (lt(key,ptr->key))
           break;
         prev=ptr;
         ptr=ptr->next;
@@ -206,7 +270,7 @@ template<class A, class B> class Map1
       n2=n1->next;
       while(n2!=endnode)
       {
-        if (n2->key < n1->key) 
+        if (lt(n2->key,n1->key)) 
         {
           Node2_t temp(n1->key,n1->value);
           n1->key=n2->key;
@@ -222,11 +286,11 @@ template<class A, class B> class Map1
 
   Iterator<A,B> begin()
   {
-    return Iterator<A,B>(first);
+    return Iterator<A,B,Lt,Eq>(first);
   }
   Iterator<A,B> end()
   {
-    return Iterator<A,B>(endnode);
+    return Iterator<A,B,Lt,Eq>(endnode);
   }
   private:
   bool sort=true;
@@ -234,6 +298,8 @@ template<class A, class B> class Map1
   Node2_t *first;
   Node2_t *last;
   Node2_t *endnode;
+  Eq eq;
+  Lt lt;
 };
 
 #endif

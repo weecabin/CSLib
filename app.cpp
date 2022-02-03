@@ -39,9 +39,9 @@ int main()
   //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
-  //CommandParserTest();
+  CommandParserTest();
   //CircularBufferTest();
-  CircularBufferTest2();
+  //CircularBufferTest2();
   return 0;
 }
 
@@ -446,10 +446,14 @@ void SetPid(char *paramstr)
 void CommandParserTest()
 {
   std::cout<<"\n***** CommandParser Testing *****\n";
+
+  //Iterator<const char *,CommandHandler*,LessChar,EqualChar> test(new Map1Node<const char *,CommandHandler*>);
+  
   CommandParser p;
   p.Add(GetHeading,GETHEADING);
   p.Add(SetHeading,SETHEADING);
   p.Add(SetPid,SETPID);
+  p.Print();
   char cmd1[] = "GetHeading()";
   p.Execute(cmd1);
   char cmd2[] = "SetHeading(60.1)";

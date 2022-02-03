@@ -4,6 +4,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
+#include "MyDefines.h"
 
 using namespace std;
 /*
@@ -54,9 +55,9 @@ class CommandHandler
   {
     executer(cmdLine);
   }
+  const char* cmd;
   private:
   void (*executer)(char *);
-  const char* cmd;
 };
 
 struct cmp_str
@@ -85,7 +86,7 @@ class CommandParser
   {
     for(auto itr=cmdMap.begin();itr!=cmdMap.end();++itr)
     {
-
+      delete *itr;
     }
   };
   // adds the executer function with cmd as the key to the command map
@@ -94,17 +95,22 @@ class CommandParser
     CommandHandler *handler=new CommandHandler(executer,cmd);
     cmdMap.Insert(cmd,handler);
   }
-
+  void Print()
+  {
+    cmdMap.Print();
+  }
   // Execute...
   // if the command exists, executes the associated callback with the parameter
   // string as the function parameter.
   bool Execute(char *cmdLine)
   {
     char *cmd = strtok(cmdLine,"(");
+    //print("\nexecute: ");println(cmd);
     if (cmd == NULL)return false;
-    auto itr = cmdMap.begin();
-    if (itr[cmd]!=cmdMap.end()) // the key esists
+    auto itr = cmdMap.begin()[cmd];
+    if (itr!=cmdMap.end()) // the key esists
     {
+      //print("Execute found ");println((*itr)->cmd);
       char *params = strtok(NULL,")");
       if (params!=NULL)
       {
@@ -121,6 +127,7 @@ class CommandParser
 
   private:
   Map1<const char*,CommandHandler *> cmdMap;
+  //Map1<const char*,CommandHandler *,LessChar,EqualChar> cmdMap;
 };
 
 #endif
