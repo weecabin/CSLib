@@ -1,6 +1,6 @@
 #ifndef COMMANDPARSER_H
 #define COMMANDPARSER_H
-#include <map>
+#include "Map1.h"
 #include <cstring>
 #include <cstdlib>
 #include <iostream>
@@ -83,17 +83,16 @@ class CommandParser
   }
   ~CommandParser()
   {
-    map<const char*,CommandHandler *>::iterator it;
-    for (it = cmdMap.begin(); it != cmdMap.end(); it++)
+    for(auto itr=cmdMap.begin();itr!=cmdMap.end();++itr)
     {
-      delete it->second;
+
     }
   };
   // adds the executer function with cmd as the key to the command map
   void Add(void (*executer)(char *),const char* cmd)
   {
     CommandHandler *handler=new CommandHandler(executer,cmd);
-    cmdMap.insert({cmd,handler});
+    cmdMap.Insert(cmd,handler);
   }
 
   // Execute...
@@ -103,24 +102,25 @@ class CommandParser
   {
     char *cmd = strtok(cmdLine,"(");
     if (cmd == NULL)return false;
-    if (cmdMap.count(cmdLine)>0) // the key esists
+    auto itr = cmdMap.begin();
+    if (itr[cmd]!=cmdMap.end()) // the key esists
     {
       char *params = strtok(NULL,")");
       if (params!=NULL)
       {
-        cmdMap[cmd]->Execute(params);
+        (*itr)->Execute(params);
       }
       else
       {
         char nothing[]="";
-        cmdMap[cmd]->Execute(nothing);
+        (*itr)->Execute(nothing);
       }
     }
     return true;
   }
 
   private:
-  map<const char*,CommandHandler *, cmp_str> cmdMap;
+  Map1<const char*,CommandHandler *> cmdMap;
 };
 
 #endif
