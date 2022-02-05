@@ -13,6 +13,7 @@ class Equal
   }
 };
 
+// Specialized version of the above template
 template <>
 class Equal <const char*>
 {
@@ -37,17 +38,23 @@ class Less
   public:
   bool operator()(A a,A b)
   {
+    #ifdef DEBUG
+    std::cout<<"In template<class A> Less";
+    #endif 
     return a<b;
   }
 };
 
+// Specialized version of the above template
 template<>
 class Less <const char *>
 {
   public:
   bool operator()(const char *str1, const char *str2)
   {
-    //std::cout<<"In template<>Less\n";
+    #ifdef DEBUG
+    std::cout<<"In template<>Less\n";
+    #endif
     for (int i=0;i<strlen(str1)&&i<strlen(str2);i++)
     {
       if (str2[i]<str1[i])
@@ -119,12 +126,15 @@ class Iterator
     // return the data from the node (dereference operator)
     B operator*() noexcept
     {
-        //std::cout<<this->current_node->value<<"\n";
+        #ifdef DEBUG
+        std::cout<<this->current_node->value<<"\n";
+        #endif
         return this->current_node->value;
     };
 
     // searches the list from the current position to the end
     // returns the Iterator associated with key
+    // If no match is found, it returns a pointer to the end node
     Iterator operator[](A key)
     { 
       //print("find: ");println(key);
@@ -136,14 +146,13 @@ class Iterator
           break;
         temp=temp->next;
       }
+      #ifdef DEBUG
       print("operator[] found: ");println(temp->key);
+      #endif
       return Iterator(temp);
     }
 
-private:
-    // was going to use this for delete and insert, but it was messy
-    // may visit it again
-    //Node2_t *previous_node = nullptr;
+    private:
     Eq eq;
     Lt lt;
     Node2_t *current_node = nullptr;

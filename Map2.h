@@ -1,5 +1,5 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef MAP2_H
+#define MAP2_H
 #include "LinkedList.h"
 #include "MyDefines.h"
 
@@ -24,14 +24,15 @@ template<class A, class B> class MapNode
   B value;
 };
 
-template<class A, class B> class Map
+// double linked map class
+template<class A, class B> class Map2
 {
   public:
-  Map(int maxsize=0)
+  Map2(int maxsize=0)
   {
     this->maxsize=maxsize;
   }
-  ~Map()
+  ~Map2()
   {
     if (ll.ValuesIn()==0)return;
     MapNode<A,B> *node = ll.GetNext(true);
@@ -139,7 +140,6 @@ template<class A, class B> class Map
   void List(void (*callback)(A,B),int count=-1)
   {
     //println("in List");
-
     if (count>0)
     {
       std::cout<<count<<" of "<<ll.ValuesIn()<<"\n";

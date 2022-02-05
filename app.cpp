@@ -1,4 +1,4 @@
-
+//#define DEBUG
 // This is a basic program on C++
 //
 // Try to modify and run it and check out
@@ -15,7 +15,7 @@
 #include "Stats.h"
 #include "LinkedList.h"
 #include "Navigation.h"
-#include "Map.h"
+#include "Map2.h"
 #include "MyDefines.h"
 #include <vector>
 #include <cstdlib>
@@ -33,13 +33,13 @@ void MapTest();
 
 int main() 
 {
-  //MapTest();
+  MapTest();
   //NavigationTest();
   //LinkedListTest();
   //DataToolsTest();
   //PidCtrlTest();
   //SchedulerTest();
-  CommandParserTest();
+  //CommandParserTest();
   //CircularBufferTest();
   //CircularBufferTest2();
   return 0;
@@ -133,7 +133,7 @@ void MapTest()
 {
   println("\n******** MapTest ********");
   println("Add (key1,100),(key2,200),(key3,300)");
-  Map<const char*,float> m;
+  Map2<const char*,float> m;
   m.Add(key1,100);
   println("Get a key value with only one in the map");
   print("key1: ");println(m.Value(key1));
@@ -177,13 +177,13 @@ void MapTest()
   println(m.GetValue(0));
 
   println("create a map with a vector as the value");
-  Map<float,vector<float>> mf;
+  Map2<float,vector<float>> mf;
   vector<float> v{1.1,2.2,3.3};
   mf.Add(.1,v);
   println(mf[.1][0]);
 
   println("Create a map with a size limit of 5 and add 10 elements");
-  Map<int,float> ml(5);
+  Map2<int,float> ml(5);
   for (int i=0;i<10;i++)
   {
     ml.AddSorted(i,i*1.1);

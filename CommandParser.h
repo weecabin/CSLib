@@ -60,14 +60,6 @@ class CommandHandler
   void (*executer)(char *);
 };
 
-struct cmp_str
-{
-   bool operator()(char const *a, char const *b) const
-   {
-      return strcasecmp(a, b) < 0;
-   }
-};
-
 /* Command Parser
 parses a command lines, and executes callback functions to handle commands defined in its map.
 Start by adding a command string and a function pointer that will handle the command.
@@ -95,10 +87,12 @@ class CommandParser
     CommandHandler *handler=new CommandHandler(executer,cmd);
     cmdMap.Insert(cmd,handler);
   }
+
   void Print()
   {
     cmdMap.Print();
   }
+
   // Execute...
   // if the command exists, executes the associated callback with the parameter
   // string as the function parameter.
@@ -110,7 +104,9 @@ class CommandParser
     auto itr = cmdMap.begin()[cmd];
     if (itr!=cmdMap.end()) // the key esists
     {
-      //print("Execute found ");println((*itr)->cmd);
+      #ifdef DEBUG 
+      print("Execute found ");println((*itr)->cmd);
+      #endif
       char *params = strtok(NULL,")");
       if (params!=NULL)
       {

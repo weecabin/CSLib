@@ -68,7 +68,9 @@ class BaseTask
   }
   virtual ~BaseTask()
   {
+    #ifdef DEBUG
     std::cout<<"In ~BaseTask\n";
+    #endif
   }
   bool TimeToRun(unsigned long currentTime) 
   {
@@ -126,7 +128,9 @@ class FunctionTask : public BaseTask
 }
 ~FunctionTask()
 {
+  #ifdef DEBUG
   std::cout<<"In ~FunctionTask\n";
+  #endif
 }
 void Run()
 {
@@ -148,7 +152,9 @@ class ExampleTask : public BaseTask
   }
   ~ExampleTask()
   {
+    #ifdef DEBUG
     std::cout<<"In ~ExampleTask\n";
+    #endif
   }
   // declared virtual allowing for this class to be the base of another class
   virtual void Run()
@@ -183,7 +189,9 @@ class Scheduler
   }
   ~Scheduler()
   {
+    #ifdef DEBUG
     std::cout<<"In ~Scheduler\n";
+    #endif
     for(int i=0;i<buff.ValuesIn();i++)
       delete buff[i];
   }
@@ -207,10 +215,12 @@ class Scheduler
         HandleRunStatus(i,buff[i]->Run(time));
     }while(quitTime>time);
     m.Stop();
-    std::cout << "\n";
+    std::cout << "\n Total Run Time: ";
     std::cout << m.Result();
-    std::cout << "\n";
+    std::cout << "ms\n";
+    #ifdef DEBUG
     std::cout << "End of Scheduler\n";
+    #endif
   }
 
   private:
@@ -225,7 +235,9 @@ class Scheduler
       break;
 
       case killme:
+      #ifdef DEBUG
       std::cout<<"kill("<<taskIndex+1<<")\n";
+      #endif
       delete buff[taskIndex]; // free the memory of this object
       buff.Delete(taskIndex); // rearranges the array to fill this hole 
       break;
